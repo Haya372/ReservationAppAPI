@@ -9,9 +9,4 @@ default: &default
 
 development:
   <<: *default
-  database: reservation_app_development
-
-
-test:
-  <<: *default
-  database: reservation_app_test
+  database: reservation_app

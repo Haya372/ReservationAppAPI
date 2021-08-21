@@ -10,6 +10,8 @@ services:
     environment:
       POSTGRES_PASSWORD: postgres
       POSTGRES_USER: postgres
+      POSTGRES_DB: reservation_app
+    restart: always
 
   server:
     build: .
@@ -23,6 +25,7 @@ services:
       - db
     environment: 
       - DATABASE_HOST=db
-      - DATABASE_PORT=3452
+      - DATABASE_PORT=5432
       - DATABASE_USER=postgres
       - DATABASE_PASSWORD=postgres
+    restart: always
