@@ -22,3 +22,4 @@ dbに入る
 ```
 reserve-app-db
 ```
+[http://localhost:30000](http://localhost:30000)
