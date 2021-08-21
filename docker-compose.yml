@@ -1,0 +1,28 @@
+version: '3.8'
+services:
+  db:
+    image: postgres
+    container_name: db
+    ports: 
+      - "5432:5432"
+    volumes:
+      - ./tmp/db:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+
+  server:
+    build: .
+    container_name: server
+    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    volumes:
+      - .:/myapp
+    ports:
+      - "30000:3000"
+    depends_on:
+      - db
+    environment: 
+      - DATABASE_HOST=db
+      - DATABASE_PORT=3452
+      - DATABASE_USER=postgres
+      - DATABASE_PASSWORD=postgres
