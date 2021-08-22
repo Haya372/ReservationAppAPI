@@ -10,7 +10,8 @@ source aliases.sh
 echo source $PWD/aliases.sh >> ~/.zshrc
 source ~/.zshrc
 ```
-起動コマンド
+起動コマンド  
+[http://localhost:30000](http://localhost:30000)s
 ```
 reserve-app
 ```
@@ -22,4 +23,8 @@ dbに入る
 ```
 reserve-app-db
 ```
-[http://localhost:30000](http://localhost:30000)
+データベースマイグレーション
+```
+# サーバー内で
+rails db:migrate
+```
