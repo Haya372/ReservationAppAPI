@@ -9,9 +9,9 @@ module JwtAuth
     raise UnAuthorizationError.new("認証情報が不足しています。") if request.headers['Authorization'].blank?
     encoded_token = request.headers['Authorization'].split('Bearer ').last
     payload = decode(encoded_token)
-    @curret_user = User.find_by(id: payload["id"], name: payload["name"])# , name: payload[:name])
-    raise UnAuthorizationError.new("ユーザーが存在しません") if @curret_user.blank?
-    @curret_user
+    @current_user = User.find_by(id: payload["id"], name: payload["name"])# , name: payload[:name])
+    raise UnAuthorizationError.new("ユーザーが存在しません") if @current_user.blank?
+    @current_user
   end
 
 
