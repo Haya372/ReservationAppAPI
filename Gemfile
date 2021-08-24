@@ -45,3 +45,6 @@ gem 'jwt'
 
 # for has_secure_password
 gem 'bcrypt'
+
+# Permit cors
+gem 'rack-cors'
