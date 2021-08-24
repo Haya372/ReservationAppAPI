@@ -21,7 +21,7 @@ class Api::UserController < ApplicationController
 
   def show
     # アクセスを簡単に許していいのかは要検討
-    render json: User.find(params[:id]).select(:id, :name, :kana)
+    render json: User.select(:id, :name, :kana).find(params[:id])
   end
 
   def update
