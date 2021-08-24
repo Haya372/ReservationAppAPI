@@ -28,4 +28,6 @@ services:
       - DATABASE_PORT=5432
       - DATABASE_USER=postgres
       - DATABASE_PASSWORD=postgres
+      - JWT_SECRET_KEY=test # ここは本番環境では絶対に変更すること
+      - CLIENT_HOST=http://localhost:3000
     restart: always

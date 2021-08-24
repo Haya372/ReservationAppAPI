@@ -2,7 +2,7 @@ module JwtAuth
   require 'jwt'
   class TokenExpiredError < StandardError; end
 
-  SECRET_KEY = "test"
+  SECRET_KEY = ENV["JWT_SECRET_KEY"]
   EXPIRES_IN = 1.month.from_now.to_i # １ヶ月
 
   def jwt_authenticate

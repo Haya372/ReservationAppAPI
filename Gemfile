@@ -48,3 +48,6 @@ gem 'bcrypt'
 
 # Permit cors
 gem 'rack-cors'
+
+# get environment variables
+gem 'dotenv-rails'
