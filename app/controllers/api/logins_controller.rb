@@ -3,9 +3,9 @@ class Api::LoginsController < ApplicationController
   before_action :jwt_authenticate, except: :create
 
   def create
-    @curret_user = User.find_by(email: params[:email])
-    raise UnAuthorizationError.new("メールアドレスまたはパスワードを間違えています。") if @curret_user.blank? || !@curret_user.authenticate(params[:password])
-    token = encode(@curret_user.id, @curret_user.name)
+    @current_user = User.find_by(email: params[:email])
+    raise UnAuthorizationError.new("メールアドレスまたはパスワードを間違えています。") if @current_user.blank? || !@current_user.authenticate(params[:password])
+    token = encode(@current_user.id, @current_user.name)
     response.headers['X-Authentication-Token'] = token
     render json: @current_user
   end
