@@ -3,7 +3,7 @@ module JwtAuth
   class TokenExpiredError < StandardError; end
 
   SECRET_KEY = "test"
-  EXPIRES_IN = 1 # １ヶ月
+  EXPIRES_IN = 1.month.from_now.to_i # １ヶ月
 
   def jwt_authenticate
     raise UnAuthorizationError.new("認証情報が不足しています。") if request.headers['Authorization'].blank?
