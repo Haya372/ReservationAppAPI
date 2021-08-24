@@ -1,8 +1,9 @@
 module JwtAuth
   require 'jwt'
+  class TokenExpiredError < StandardError; end
 
   SECRET_KEY = "test"
-  EXPIRES_IN = 1.month.from_now.to_i # １ヶ月
+  EXPIRES_IN = 1 # １ヶ月
 
   def jwt_authenticate
     raise UnAuthorizationError.new("認証情報が不足しています。") if request.headers['Authorization'].blank?
@@ -16,7 +17,7 @@ module JwtAuth
 
 
   def encode(user_id, user_name)
-    payload = { id: user_id, name: user_name, exp: EXPIRES_IN }
+    payload = { id: user_id, name: user_name, timestamp: Time.now, exp: EXPIRES_IN }
     JWT.encode(payload, SECRET_KEY, 'HS256')
   end
 
@@ -27,7 +28,7 @@ module JwtAuth
       decoded_token.first
     rescue JWT::ExpiredSignature
       # expired error
-      raise UnAuthorizationError.new("トークンが期限切れです。")
+      raise TokenExpiredError.new("トークンが期限切れです。")
     end
   end
 
