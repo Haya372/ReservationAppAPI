@@ -4,8 +4,9 @@ class Api::SpaceController < ApplicationController
 
 
   def create
-    space = Space.create(space_params)
+    space = Space.new(space_params)
     space.organizations << Organization.find(permitted_organization_id[:organization_id])
+    space.save
     render json: space
   end
 
