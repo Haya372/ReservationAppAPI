@@ -1,4 +1,4 @@
-class Api::SpacesController < ApplicationController
+class Api::SpaceController < ApplicationController
   include JwtAuth
   before_action :jwt_authenticate
 
