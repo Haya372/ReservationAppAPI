@@ -1,11 +1,12 @@
-class Api::SpacesController < ApplicationController
+class Api::SpaceController < ApplicationController
   include JwtAuth
   before_action :jwt_authenticate
 
 
   def create
-    space = Space.create(space_params)
+    space = Space.new(space_params)
     space.organizations << Organization.find(permitted_organization_id[:organization_id])
+    space.save
     render json: space
   end
 
