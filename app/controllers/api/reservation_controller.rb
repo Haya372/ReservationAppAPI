@@ -3,6 +3,7 @@ class Api::ReservationController < ApplicationController
   before_action :jwt_authenticate
 
   def create
+    raise ForbiddenError.new("予約がいっぱいです。") if !reservable?
     reservation = Reservation.new(reservation_params)
     if !params[:users].blank?
       params[:users].each{ |user_id|
@@ -23,6 +24,9 @@ class Api::ReservationController < ApplicationController
   end
 
   def update
+    if !params[:numbers].blank?
+      raise ForbiddenError.new("予約がいっぱいです。") if !reservable?
+    end
     reservation = Reservation.find(params[:id])
     reservation.update(reservation_update_params)
     # 参加する人の情報もいい感じに変更できたらいいかも
@@ -46,4 +50,12 @@ class Api::ReservationController < ApplicationController
   def permitted_space_id
     params.permit(:space_id)
   end
+
+  private
+  def reservable?
+    capacity = Space.select(:capacity).find(permitted_space_id[:space_id])
+    common = Reservation.common_part(permitted_space_id[:space_id], params.permit(:start_time)[:start_time], params.permit(:end_time)[:end_time]).sum(:numbers)
+    common + params[:numbers] <= capacity[:capacity]
+  end
+
 end
