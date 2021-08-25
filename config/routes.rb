@@ -4,7 +4,9 @@ Rails.application.routes.draw do
     resource :login
     resources :user
     resources :organization do
-      resources :space
+      resources :space do
+        resources :reservation
+      end
     end
   end
 
