@@ -7,7 +7,7 @@ class Api::OrganizationController < ApplicationController
     organization = Organization.new(organization_params)
     organization.users << @current_user
     organization.user_roles << UserRole.new(user_id: @current_user.id, role_id: 1)
-    organization.save
+    raise BadRequestError if !organization.save
     render json: organization
   end
 
