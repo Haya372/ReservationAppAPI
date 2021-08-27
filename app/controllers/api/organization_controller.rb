@@ -4,8 +4,10 @@ class Api::OrganizationController < ApplicationController
   before_action :check_perm, only: [:create, :destroy, :update]
 
   def create
-    organization = Organization.create(organization_params)
+    organization = Organization.new(organization_params)
     organization.users << @current_user
+    organization.user_roles << UserRole.new(user_id: @current_user.id, role_id: 1)
+    organization.save
     render json: organization
   end
 
