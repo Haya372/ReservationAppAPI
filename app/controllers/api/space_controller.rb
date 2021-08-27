@@ -1,7 +1,7 @@
 class Api::SpaceController < ApplicationController
   include JwtAuth
   before_action :jwt_authenticate
-
+  before_action :check_perm, except: [:show, :index]
 
   def create
     space = Space.new(space_params)
@@ -29,16 +29,17 @@ class Api::SpaceController < ApplicationController
     render json: "success"
   end
 
-  def check_perm
-    # 団体編集権限があるかどうか
-    # role APIが完成後に処理を追記
-  end
-
   def space_params
     params.permit(:name, :capacity)
   end
 
   def permitted_organization_id
     params.permit(:organization_id)
+  end
+
+  def check_perm
+    # role_id = 1にしているがこれはroleが増えてきたら処理を書き換える
+    roles = UserRole.where(user_id: @current_user.id).where(permitted_organization_id).where(role_id: 1)
+    raise ForbiddenError if roles.blank?
   end
 end
