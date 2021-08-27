@@ -1,11 +1,13 @@
 class Api::OrganizationController < ApplicationController
   include JwtAuth
   before_action :jwt_authenticate
-  before_action :check_perm, only: [:create, :destroy, :update]
+  before_action :check_perm, only: [:destroy, :update]
 
   def create
-    organization = Organization.create(organization_params)
+    organization = Organization.new(organization_params)
     organization.users << @current_user
+    organization.user_roles << UserRole.new(user_id: @current_user.id, role_id: 1)
+    raise BadRequestError if !organization.save
     render json: organization
   end
 
@@ -29,8 +31,9 @@ class Api::OrganizationController < ApplicationController
   end
 
   def check_perm
-    # 団体編集権限があるかどうか
-    # role APIが完成後に処理を追記
+    # role_id = 1にしているがこれはroleが増えてきたら処理を書き換える
+    roles = UserRole.where(user_id: @current_user.id).where(organization_id: params[:id]).where(role_id: 1)
+    raise ForbiddenError if roles.blank?
   end
 
   def organization_params

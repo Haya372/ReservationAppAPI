@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_24_151545) do
+ActiveRecord::Schema.define(version: 2021_08_27_141524) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -69,6 +69,8 @@ ActiveRecord::Schema.define(version: 2021_08_24_151545) do
   create_table "user_roles", force: :cascade do |t|
     t.bigint "user_id"
     t.bigint "role_id"
+    t.bigint "organization_id", null: false
+    t.index ["organization_id"], name: "index_user_roles_on_organization_id"
     t.index ["role_id"], name: "index_user_roles_on_role_id"
     t.index ["user_id"], name: "index_user_roles_on_user_id"
   end
@@ -89,6 +91,7 @@ ActiveRecord::Schema.define(version: 2021_08_24_151545) do
   add_foreign_key "user_organizations", "users"
   add_foreign_key "user_reservations", "reservations"
   add_foreign_key "user_reservations", "users"
+  add_foreign_key "user_roles", "organizations"
   add_foreign_key "user_roles", "roles"
   add_foreign_key "user_roles", "users"
 end
