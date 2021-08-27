@@ -21,7 +21,11 @@ class Api::ReservationController < ApplicationController
   end
 
   def index
-    render json: Reservation.where(permitted_space_id)
+    if !params[:start_time].blank? && !params[:end_time].blank?
+      render json: Reservation.common_part(permitted_space_id[:space_id], params.permit(:start_time)[:start_time], params.permit(:end_time)[:end_time])
+    else
+      render json: Reservation.where(permitted_space_id)
+    end
   end
 
   def update
