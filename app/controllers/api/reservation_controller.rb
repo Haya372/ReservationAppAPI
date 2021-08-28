@@ -3,7 +3,9 @@ class Api::ReservationController < ApplicationController
   before_action :jwt_authenticate
 
   def create
+    raise BadRequestError if DateTime.parse(params[:end_time]) - DateTime.parse(params[:start_time]) <= 0
     ActiveRecord::Base.transaction do
+      raise ForbiddenError if !@current_user.belong_organization(params[:organization_id])
       @reservation = Reservation.create(reservation_params)
       if !params[:users].blank?
         params[:users].each{ |user_id|
@@ -22,7 +24,13 @@ class Api::ReservationController < ApplicationController
 
   def index
     if !params[:start_time].blank? && !params[:end_time].blank?
-      render json: Reservation.common_part(permitted_space_id[:space_id], params.permit(:start_time)[:start_time], params.permit(:end_time)[:end_time])
+      raise BadRequestError if DateTime.parse(params[:end_time]) - DateTime.parse(params[:start_time]) <= 0
+      if params[:sumOnly]
+        common = Reservation.common_part(permitted_space_id[:space_id], params.permit(:start_time)[:start_time], params.permit(:end_time)[:end_time])
+        render json: { "sum" => common.sum(:numbers) }
+      else
+        render json: Reservation.common_part(permitted_space_id[:space_id], params.permit(:start_time)[:start_time], params.permit(:end_time)[:end_time])
+      end
     else
       render json: Reservation.where(permitted_space_id)
     end
@@ -62,7 +70,6 @@ class Api::ReservationController < ApplicationController
   def reservable?
     capacity = Space.select(:capacity).find(permitted_space_id[:space_id])
     common = Reservation.common_part(permitted_space_id[:space_id], params.permit(:start_time)[:start_time], params.permit(:end_time)[:end_time]).sum(:numbers)
-    p common
     common <= capacity[:capacity]
   end
 
