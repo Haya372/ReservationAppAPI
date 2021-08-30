@@ -18,7 +18,12 @@ class Api::OrganizationController < ApplicationController
   end
 
   def show
-    render json: Organization.select(:id, :name).find(params[:id].to_i)
+    organization = Organization.find(params[:id])
+    render json: {
+      "id" => organization.id,
+      "name" => organization.name,
+      "users" => organization.users.select(:id, :name, :kana)
+    }
   end
 
   def index
