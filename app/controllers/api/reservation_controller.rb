@@ -6,14 +6,18 @@ class Api::ReservationController < ApplicationController
     raise BadRequestError if DateTime.parse(params[:end_time]) - DateTime.parse(params[:start_time]) <= 0
     ActiveRecord::Base.transaction do
       raise ForbiddenError if !@current_user.belong_organization(params[:organization_id])
-      @reservation = Reservation.create(reservation_params)
-      if !params[:users].blank?
-        params[:users].each{ |user_id|
-          user = User.find(user_id)
-          @reservation.users << user if !user.blank?
-        }
+      begin
+        @reservation = Reservation.create(reservation_params)
+        if !params[:users].blank?
+          params[:users].each{ |user_id|
+            user = User.find(user_id)
+            @reservation.users << user if !user.blank?
+          }
+        end
+        raise ForbiddenError.new("予約がいっぱいです。") if !reservable?
+      rescue ActiveRecord::RecordInvalid, ActiveRecord::NotNullViolation
+        raise BadRequestError
       end
-      raise ForbiddenError.new("予約がいっぱいです。") if !reservable?
     end
     render json: @reservation
   end
@@ -38,10 +42,16 @@ class Api::ReservationController < ApplicationController
 
   def update
     reservation = Reservation.find(params[:id])
+    raise ActiveRecord::RecordNotFound if reservation.blank?
+    raise ForbiddenError if reservation.user_id != @current_user.id
     ActiveRecord::Base.transaction do
-      reservation.update(reservation_update_params)
-      if !params[:numbers].blank?
-        raise ForbiddenError.new("予約がいっぱいです。") if !reservable?
+      begin
+        reservation.update!(reservation_update_params)
+        if !params[:numbers].blank?
+          raise ForbiddenError.new("予約がいっぱいです。") if !reservable?
+        end
+      rescue ActiveRecord::RecordInvalid, ActiveRecord::NotNullViolation
+        raise BadRequestError
       end
     end
     # 参加する人の情報もいい感じに変更できたらいいかも
@@ -55,7 +65,7 @@ class Api::ReservationController < ApplicationController
   end
 
   def reservation_params
-    params.permit(:space_id, :numbers, :start_time, :end_time)
+    { space_id: params[:space_id], numbers: params[:numbers], start_time: params[:start_time], end_time: params[:end_time], user_id: @current_user.id }
   end
 
   def reservation_update_params

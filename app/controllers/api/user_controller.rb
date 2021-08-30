@@ -3,11 +3,13 @@ class Api::UserController < ApplicationController
   before_action :jwt_authenticate, except: :create
 
   def create
-    params.permit
-    p params[:user]
-    user = User.create(user_params)
-    token = encode(user.id, user.name)
-    response.headers['X-Authentication-Token'] = token
+    begin
+      user = User.create!(user_params)
+      token = encode(user.id, user.name)
+      response.headers['X-Authentication-Token'] = token
+    rescue ActiveRecord::RecordInvalid, ActiveRecord::NotNullViolation
+      raise BadRequestError
+    end
     render json: user
   end
 
@@ -25,8 +27,12 @@ class Api::UserController < ApplicationController
   end
 
   def update
-    user = @current_user.update(user_params)
-    render json: user
+    begin
+      @current_user.update!(user_params)
+    rescue ActiveRecord::RecordInvalid, ActiveRecord::NotNullViolation
+      raise BadRequestError
+    end
+    render json: @current_user
   end
 
   def destroy
