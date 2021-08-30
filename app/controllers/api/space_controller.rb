@@ -4,9 +4,13 @@ class Api::SpaceController < ApplicationController
   before_action :check_perm, except: [:show, :index]
 
   def create
-    space = Space.new(space_params)
-    space.organizations << Organization.find(permitted_organization_id[:organization_id])
-    space.save
+    begin
+      space = Space.new(space_params)
+      space.organizations << Organization.find(permitted_organization_id[:organization_id])
+      space.save
+    rescue ActiveRecord::NotNullViolation
+      raise BadRequestError
+    end
     render json: space
   end
 
@@ -20,7 +24,7 @@ class Api::SpaceController < ApplicationController
 
   def update
     space = Space.find(params[:id])
-    space.update(space_params)
+    raise BadRequestError if !space.update(space_params)
     render json: space
   end
 

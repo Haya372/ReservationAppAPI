@@ -1,4 +1,5 @@
 class Space < ApplicationRecord
+  validates :name, presence: true, on: :update
   has_many :reservations, dependent: :delete_all
   has_many :organization_spaces, dependent: :delete_all
   has_many :organizations, through: :organization_spaces
