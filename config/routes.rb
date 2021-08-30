@@ -7,6 +7,10 @@ Rails.application.routes.draw do
       resources :space do
         resources :reservation
       end
+
+      scope module: :organization do
+        resources :user, only: [:index]
+      end
     end
   end
 
