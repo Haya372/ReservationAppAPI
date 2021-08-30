@@ -9,7 +9,6 @@ class Api::OrganizationController < ApplicationController
         @organization = Organization.create(organization_params)
         @organization.users << @current_user
         @organization.user_roles << UserRole.new(user_id: @current_user.id, role_id: 1)
-        @organization.save!
       rescue ActiveRecord::RecordInvalid, ActiveRecord::NotNullViolation => e
         raise BadRequestError
       end
