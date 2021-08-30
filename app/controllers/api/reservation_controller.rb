@@ -25,7 +25,7 @@ class Api::ReservationController < ApplicationController
   def index
     if !params[:start_time].blank? && !params[:end_time].blank?
       raise BadRequestError if DateTime.parse(params[:end_time]) - DateTime.parse(params[:start_time]) <= 0
-      if params[:sumOnly].downcase == "true"
+      if params[:sumOnly] && params[:sumOnly].downcase == "true"
         common = Reservation.common_part(permitted_space_id[:space_id], params.permit(:start_time)[:start_time], params.permit(:end_time)[:end_time])
         render json: { "sum" => common.sum(:numbers) }
       else
