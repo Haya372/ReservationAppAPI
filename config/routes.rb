@@ -10,6 +10,7 @@ Rails.application.routes.draw do
 
       scope module: :organization do
         resources :user, only: [:index]
+        resources :reservation, only: [:index]
       end
     end
   end
