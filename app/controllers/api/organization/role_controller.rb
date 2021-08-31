@@ -24,7 +24,7 @@ class Api::Organization::RoleController < ApplicationController
     roles = UserRole.where(organization_id: params[:organization_id])
     # 管理者が残り1人なら削除不可
     raise BadRequestError if roles.length == 1
-    role = roles.find_by(user_id: params[:user_id])
+    role = roles.find_by(user_id: params[:id])
     raise ActiveRecord::RecordNotFound if role.blank?
     role.destroy
     render json: "success"
