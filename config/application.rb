@@ -29,7 +29,7 @@ module ReservationApp
     # These settings can be overridden in specific environments using the files
     # in config/environments, which are processed later.
     #
-    # config.time_zone = "Central Time (US & Canada)"
+    config.time_zone = "Tokyo"
     # config.eager_load_paths << Rails.root.join("extras")
 
     # Only loads a smaller set of middleware suitable for API only apps.
@@ -41,7 +41,7 @@ module ReservationApp
         origins ENV["CLIENT_HOST"]
         resource "*",
           headers: :any,
-          methods: [:get, :post, :options, :head],
+          methods: [:get, :post, :options, :head, :delete, :patch, :put],
           expose: ['X-Authentication-Token']
       end
     end

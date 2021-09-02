@@ -10,4 +10,8 @@ class Organization < ApplicationRecord
   has_many :organization_spaces, dependent: :delete_all
   has_many :spaces, through: :organization_spaces, dependent: :delete_all
   has_many :user_roles, dependent: :delete_all
+
+  def self.show_attributes
+    ["id", "name"]
+  end
 end

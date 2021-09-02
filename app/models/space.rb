@@ -7,4 +7,8 @@ class Space < ApplicationRecord
   scope :belong_organization, -> organization_id {
     joins(:organizations).where('organizations.id = ?', organization_id)
   }
+
+  def self.show_attributes
+    ["id", "name", "capacity"]
+  end
 end
