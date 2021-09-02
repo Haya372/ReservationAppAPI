@@ -23,7 +23,7 @@ class Api::ReservationController < ApplicationController
   end
 
   def show
-    render json: Reservation.find(params[:id])
+    render json: Reservation.with_organization.find(params[:id])
   end
 
   def index
@@ -36,7 +36,7 @@ class Api::ReservationController < ApplicationController
         render json: Reservation.common_part(permitted_space_id[:space_id], params.permit(:start_time)[:start_time], params.permit(:end_time)[:end_time])
       end
     else
-      render json: Reservation.where(permitted_space_id)
+      render json: Reservation.where(permitted_space_id).with_organization
     end
   end
 
