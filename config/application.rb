@@ -41,7 +41,7 @@ module ReservationApp
         origins ENV["CLIENT_HOST"]
         resource "*",
           headers: :any,
-          methods: [:get, :post, :options, :head],
+          methods: [:get, :post, :options, :head, :delete, :patch, :put],
           expose: ['X-Authentication-Token']
       end
     end
