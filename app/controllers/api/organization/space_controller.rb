@@ -1,4 +1,4 @@
-class Api::SpaceController < ApplicationController
+class Api::Organization::SpaceController < ApplicationController
   include JwtAuth
   before_action :jwt_authenticate
   before_action :check_perm, except: [:show, :index]

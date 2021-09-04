@@ -7,8 +7,8 @@ Rails.application.routes.draw do
     end
     resources :user
     resources :organization do
-      resources :space do
-        resources :reservation
+      scope module: :organization do
+        resources :space
       end
 
       scope module: :organization do
