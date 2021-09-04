@@ -9,7 +9,9 @@ Rails.application.routes.draw do
     resources :organization do
       scope module: :organization do
         resources :space do
-          resources :reservation
+          scope module: :space do
+            resources :reservation
+          end
         end
       end
 
