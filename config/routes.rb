@@ -17,6 +17,8 @@ Rails.application.routes.draw do
         resources :role, except: [:update]
       end
     end
+
+    resources :space, only: [:show, :update, :destroy]
   end
 
 end
