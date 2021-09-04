@@ -21,6 +21,7 @@ Rails.application.routes.draw do
     end
 
     resources :space, only: [:show, :update, :destroy]
+    resources :reservation, only: [:show, :update, :destroy]
   end
 
 end
