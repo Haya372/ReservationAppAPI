@@ -7,8 +7,10 @@ Rails.application.routes.draw do
     end
     resources :user
     resources :organization do
-      resources :space do
-        resources :reservation
+      scope module: :organization do
+        resources :space do
+          resources :reservation
+        end
       end
 
       scope module: :organization do
@@ -17,6 +19,13 @@ Rails.application.routes.draw do
         resources :role, except: [:update]
       end
     end
+
+    resources :space, only: [:show, :update, :destroy] do
+      scope module: :space do
+        resources :reservation
+      end
+    end
+    resources :reservation, only: [:show, :update, :destroy]
   end
 
 end

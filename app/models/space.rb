@@ -8,6 +8,14 @@ class Space < ApplicationRecord
     joins(:organizations).where('organizations.id = ?', organization_id)
   }
 
+  scope :with_organization, -> {
+    columns = "spaces.*,"
+    Organization.show_attributes.each {|attr|
+      columns += "organizations." +attr + " as organization_" + attr + ","
+    }
+    joins(:organizations).select(columns.chop)
+  }
+
   def self.show_attributes
     ["id", "name", "capacity"]
   end
