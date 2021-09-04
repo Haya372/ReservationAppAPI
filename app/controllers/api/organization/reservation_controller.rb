@@ -4,6 +4,8 @@ class Api::Organization::ReservationController < ApplicationController
 
   def create
     raise BadRequestError if DateTime.parse(params[:end_time]) - DateTime.parse(params[:start_time]) <= 0
+    space = Space.with_organization.find(params[:space_id])
+    raise ActiveRecord::RecordNotFound if space.organization_id != params[:organization_id].to_i
     ActiveRecord::Base.transaction do
       raise ForbiddenError if !@current_user.belong_organization(params[:organization_id])
       begin
