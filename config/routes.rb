@@ -20,7 +20,11 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :space, only: [:show, :update, :destroy]
+    resources :space, only: [:show, :update, :destroy] do
+      scope module: :space do
+        resources :reservation
+      end
+    end
     resources :reservation, only: [:show, :update, :destroy]
   end
 
