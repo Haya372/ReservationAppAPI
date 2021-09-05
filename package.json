@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "client": "webpack-dev-server --config ./webpack.config.dev.js",
+    "start": "concurrently \"npm run client\" \"rails s -b 0.0.0.0\"",
     "build": "webpack --config ./webpack.config.js --mode production"
   },
   "dependencies": {
