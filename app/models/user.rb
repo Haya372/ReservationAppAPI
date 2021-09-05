@@ -5,7 +5,7 @@ class User < ApplicationRecord
   validates :password, presence: true, on: :update
 
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
-  validates :email, {presence: true, format: { with: VALID_EMAIL_REGEX }}
+  validates :email, {presence: true, format: { with: VALID_EMAIL_REGEX }, uniqueness: true}
 
   has_many :user_roles, dependent: :delete_all
   has_many :roles, through: :user_roles
