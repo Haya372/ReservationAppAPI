@@ -4,6 +4,8 @@ Rails.application.routes.draw do
     resource :login
     namespace :user do
       resources :reservation, only: [:index]
+      resources :organization, only: [:index, :destroy]
+      post 'organization/:id', to: 'organization#join_organization'
     end
     resources :user
     resources :organization do
