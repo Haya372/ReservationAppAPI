@@ -22,6 +22,7 @@ services:
       - .:/myapp
     ports:
       - "30000:3000"
+      - "30001:30001"
     depends_on:
       - db
     environment: 

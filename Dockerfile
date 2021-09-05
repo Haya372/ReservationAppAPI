@@ -1,12 +1,15 @@
 FROM ruby:3.0.0
 
-RUN apt-get update -qq && apt-get install -y nodejs postgresql-client
+RUN apt-get update -qq
+RUN curl -sL https://deb.nodesource.com/setup_14.x | bash -
+RUN apt-get install -y nodejs postgresql-client
 RUN mkdir /myapp
 WORKDIR /myapp
 ENV TZ Asia/Tokyo
 COPY Gemfile /myapp/Gemfile
 COPY Gemfile.lock /myapp/Gemfile.lock
 RUN bundle install
+RUN npm install
 
 COPY . /myapp
 
