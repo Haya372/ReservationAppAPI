@@ -1,7 +1,7 @@
 class Api::SpaceController < ApplicationController
   include JwtAuth
   before_action :jwt_authenticate
-  before_action :check_perm, only: [:update, :destroy]
+  # before_action :check_perm, only: [:update, :destroy]
 
   def show
     space = Space.with_organization.find(params[:id])

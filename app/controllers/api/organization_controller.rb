@@ -1,14 +1,16 @@
 class Api::OrganizationController < ApplicationController
   include JwtAuth
   before_action :jwt_authenticate
-  before_action :check_perm, only: [:destroy, :update]
+  # before_action :check_perm, only: [:destroy, :update]
 
   def create
     ActiveRecord::Base.transaction do
       begin
         @organization = Organization.create(organization_params)
-        @organization.users << @current_user
-        @organization.user_roles << UserRole.new(user_id: @current_user.id, role_id: 1)
+        UserOrganization.create(user_id: @current_user.id, organization_id: @organization.id, role: "create")
+        UserOrganization.create(user_id: @current_user.id, organization_id: @organization.id, role: "read")
+        UserOrganization.create(user_id: @current_user.id, organization_id: @organization.id, role: "update")
+        UserOrganization.create(user_id: @current_user.id, organization_id: @organization.id, role: "delete")
       rescue ActiveRecord::RecordInvalid, ActiveRecord::NotNullViolation => e
         raise BadRequestError
       end

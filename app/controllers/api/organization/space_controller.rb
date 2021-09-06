@@ -1,7 +1,7 @@
 class Api::Organization::SpaceController < ApplicationController
   include JwtAuth
   before_action :jwt_authenticate
-  before_action :check_perm, except: [:show, :index]
+  # before_action :check_perm, except: [:show, :index]
 
   def create
     ActiveRecord::Base.transaction do
