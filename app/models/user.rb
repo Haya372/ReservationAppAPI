@@ -14,4 +14,18 @@ class User < ApplicationRecord
   def belong_organization(organization_id)
     !UserOrganization.where(user_id: self.id).where(organization_id: organization_id).blank?
   end
+
+  def has_role?(organization_id, action)
+    user_organization = UserOrganization.where(user_id: self.id).find_by(organization_id: organization_id)
+    role = nil
+    case action
+    when "show", "index" then
+      role = "read"
+    when "destroy" then
+      role = "delete"
+    else
+      role = action
+    end
+    user_organization.role.find{|r| r == "aa"}.blank?
+  end
 end

@@ -1,7 +1,7 @@
 class Api::Organization::SpaceController < ApplicationController
   include JwtAuth
   before_action :jwt_authenticate
-  # before_action :check_perm, except: [:show, :index]
+  before_action :check_perm
 
   def create
     ActiveRecord::Base.transaction do
@@ -42,8 +42,6 @@ class Api::Organization::SpaceController < ApplicationController
   end
 
   def check_perm
-    # role_id = 1にしているがこれはroleが増えてきたら処理を書き換える
-    roles = UserRole.where(user_id: @current_user.id).where(permitted_organization_id).where(role_id: 1)
-    raise ForbiddenError if roles.blank?
+    raise ForbiddenError if !@current_user.has_role?(params[:organization_id], params[:action])
   end
 end

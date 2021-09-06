@@ -1,7 +1,7 @@
 class Api::SpaceController < ApplicationController
   include JwtAuth
   before_action :jwt_authenticate
-  # before_action :check_perm, only: [:update, :destroy]
+  before_action :check_perm
 
   def show
     space = Space.with_organization.find(params[:id])
@@ -27,8 +27,7 @@ class Api::SpaceController < ApplicationController
   def check_perm
     # role_id = 1にしているがこれはroleが増えてきたら処理を書き換える
     @space = Space.with_organization.find(params[:id])
-    roles = UserRole.where(user_id: @current_user.id).where(organization_id: @space.organization_id).where(role_id: 1)
-    raise ForbiddenError if roles.blank?
+    raise ForbiddenError if !@current_user.has_role?(@space.organization_id, params[:action])
   end
 
 end
