@@ -19,7 +19,7 @@ class Api::Organization::SpaceController < ApplicationController
   end
 
   def index
-    render json: Space.belong_organization(permitted_organization_id[:organization_id])
+    render json: Space.where(permitted_organization_id)
   end
 
   def update

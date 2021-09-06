@@ -12,7 +12,7 @@ class Space < ApplicationRecord
     Organization.show_attributes.each {|attr|
       columns += "organizations." +attr + " as organization_" + attr + ","
     }
-    joins(:organizations).select(columns.chop)
+    joins(:organization).select(columns.chop)
   }
 
   def self.show_attributes
