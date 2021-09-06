@@ -7,10 +7,7 @@ class Api::OrganizationController < ApplicationController
     ActiveRecord::Base.transaction do
       begin
         @organization = Organization.create(organization_params)
-        UserOrganization.create(user_id: @current_user.id, organization_id: @organization.id, role: "create")
-        UserOrganization.create(user_id: @current_user.id, organization_id: @organization.id, role: "read")
-        UserOrganization.create(user_id: @current_user.id, organization_id: @organization.id, role: "update")
-        UserOrganization.create(user_id: @current_user.id, organization_id: @organization.id, role: "delete")
+        UserOrganization.create(user_id: @current_user.id, organization_id: @organization.id, role: ["create", "read", "update", "delete"])
       rescue ActiveRecord::RecordInvalid, ActiveRecord::NotNullViolation => e
         raise BadRequestError
       end
