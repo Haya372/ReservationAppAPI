@@ -7,12 +7,9 @@ class User < ApplicationRecord
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   validates :email, {presence: true, format: { with: VALID_EMAIL_REGEX }, uniqueness: true}
 
-  has_many :user_roles, dependent: :delete_all
-  has_many :roles, through: :user_roles
   has_many :user_organizations, dependent: :delete_all
   has_many :organizations, through: :user_organizations
-  has_many :user_reservations, dependent: :delete_all
-  has_many :reservations, through: :user_reservations
+  has_many :reservations, dependent: :delete_all
 
   def belong_organization(organization_id)
     !UserOrganization.where(user_id: self.id).where(organization_id: organization_id).blank?
