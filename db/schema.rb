@@ -57,7 +57,7 @@ ActiveRecord::Schema.define(version: 2021_09_06_145805) do
   create_table "user_organizations", force: :cascade do |t|
     t.bigint "user_id"
     t.bigint "organization_id"
-    t.string "role", null: false
+    t.string "role", null: false, array: true
     t.index ["organization_id"], name: "index_user_organizations_on_organization_id"
     t.index ["user_id"], name: "index_user_organizations_on_user_id"
   end
