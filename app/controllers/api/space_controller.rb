@@ -25,7 +25,6 @@ class Api::SpaceController < ApplicationController
   end
 
   def check_perm
-    # role_id = 1にしているがこれはroleが増えてきたら処理を書き換える
     @space = Space.with_organization.find(params[:id])
     raise ForbiddenError if !@current_user.has_role?(@space.organization_id, params[:action])
   end
