@@ -7,7 +7,6 @@ class Api::Organization::SpaceController < ApplicationController
     ActiveRecord::Base.transaction do
       begin
         @space = Space.create(space_params)
-        @space.organizations << Organization.find(permitted_organization_id[:organization_id])
       rescue ActiveRecord::NotNullViolation
         raise BadRequestError
       end
@@ -35,7 +34,7 @@ class Api::Organization::SpaceController < ApplicationController
   end
 
   def space_params
-    params.permit(:name, :capacity)
+    params.permit(:name, :capacity, :organization_id)
   end
 
   def permitted_organization_id

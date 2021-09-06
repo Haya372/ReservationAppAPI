@@ -1,7 +1,7 @@
 class Space < ApplicationRecord
   validates :name, presence: true, on: :update
   has_many :reservations, dependent: :delete_all
-  belongs_to :organizations
+  belongs_to :organization
 
   scope :belong_organization, -> organization_id {
     joins(:organizations).where('organizations.id = ?', organization_id)
