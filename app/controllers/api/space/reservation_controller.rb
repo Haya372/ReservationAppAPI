@@ -72,7 +72,7 @@ class Api::Space::ReservationController < ApplicationController
   end
 
   def reservation_params
-    { space_id: params[:space_id], numbers: params[:numbers], start_time: params[:start_time], end_time: params[:end_time], user_id: @current_user.id }
+    { space_id: params[:space_id], numbers: params[:numbers], start_time: params[:start_time], end_time: params[:end_time], user_id: @current_user.id, users: params[:users] }
   end
 
   def reservation_update_params
