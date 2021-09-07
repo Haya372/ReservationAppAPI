@@ -13,10 +13,6 @@ class Api::ReservationController < ApplicationController
     ActiveRecord::Base.transaction do
       begin
         @reservation.update!(reservation_update_params)
-        if !params[:numbers].blank?
-          #Ex:- :null => false]
-          raise ForbiddenError.new("予約がいっぱいです。") if !reservable?
-        end
       rescue ActiveRecord::RecordInvalid, ActiveRecord::NotNullViolation => e
         logger.debug e
         raise BadRequestError
@@ -33,12 +29,6 @@ class Api::ReservationController < ApplicationController
   end
 
   private
-  def reservable?
-    capacity = @reservation.space_capacity
-    common = Reservation.common_part(@reservation.space_id, @reservation.start_time, @reservation.end_time).sum(:numbers)
-    common <= capacity
-  end
-
   def reservation_update_params
     params.permit(:numbers, :start_time, :end_time)
   end

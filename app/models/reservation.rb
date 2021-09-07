@@ -3,6 +3,8 @@ class Reservation < ApplicationRecord
   validates :numbers, presence: true, on: :update
   validate :validate_start_time
   validate :validate_end_time
+  validate :validate_numbers_on_create, on: :create
+  validate :validate_numbers_on_update, on: :update
 
   belongs_to :user
   belongs_to :space
@@ -32,5 +34,18 @@ class Reservation < ApplicationRecord
 
   def validate_end_time
     errors.add(:end_time, "は開始時間より後にしてください", strict: true) if self.start_time >= self.end_time
+  end
+
+  def validate_numbers_on_create
+    capacity = Space.find(self.space_id).capacity
+    common = Reservation.common_part(self.space_id, self.start_time, self.end_time).sum(:numbers)
+    errors.add(:numbers, "予約制限がいっぱいです", strict: true) if common + self.numbers > capacity
+  end
+
+  def validate_numbers_on_update
+    capacity = Space.find(self.space_id).capacity
+    common = Reservation.common_part(self.space_id, self.start_time, self.end_time).sum(:numbers)
+    old = Reservation.find(self.id).numbers
+    errors.add(:numbers, "予約制限がいっぱいです", strict: true) if common - old + self.numbers > capacity
   end
 end

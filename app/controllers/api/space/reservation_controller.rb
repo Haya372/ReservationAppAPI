@@ -9,8 +9,6 @@ class Api::Space::ReservationController < ApplicationController
       raise ForbiddenError if !@current_user.belong_organization(space.organization_id)
       begin
         @reservation = Reservation.create(reservation_params)
-        end
-        raise ForbiddenError.new("予約がいっぱいです。") if !reservable?(space.capacity)
       rescue ActiveRecord::RecordInvalid, ActiveRecord::NotNullViolation => e
         logger.debug e
         raise BadRequestError
@@ -46,10 +44,6 @@ class Api::Space::ReservationController < ApplicationController
     ActiveRecord::Base.transaction do
       begin
         @reservation.update!(reservation_update_params)
-        if !params[:numbers].blank?
-          #Ex:- :null => false]
-          raise ForbiddenError.new("予約がいっぱいです。") if !reservable?
-        end
       rescue ActiveRecord::RecordInvalid, ActiveRecord::NotNullViolation => e
         logger.debug e
         raise BadRequestError
@@ -66,12 +60,6 @@ class Api::Space::ReservationController < ApplicationController
   end
 
   private
-  def reservable?(capa = nil)
-    capacity = capa ? capa : @reservation.space_capacity
-    common = Reservation.common_part(@reservation.space_id, @reservation.start_time, @reservation.end_time).sum(:numbers)
-    common <= capacity
-  end
-
   def reservation_params
     { space_id: params[:space_id], numbers: params[:numbers], start_time: params[:start_time], end_time: params[:end_time], user_id: @current_user.id, users: params[:users] }
   end
