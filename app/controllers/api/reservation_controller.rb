@@ -24,7 +24,11 @@ class Api::ReservationController < ApplicationController
   end
 
   def destroy
-    @reservation.destroy
+    ActiveRecord::Base.transaction do
+      reservation = Reservation.find(params[:id])
+      ReservationCount.remove(reservation)
+      reservation.destroy
+    end
     render json: "success"
   end
 

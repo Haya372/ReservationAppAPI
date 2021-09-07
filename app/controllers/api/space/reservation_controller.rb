@@ -9,6 +9,7 @@ class Api::Space::ReservationController < ApplicationController
       raise ForbiddenError if !@current_user.belong_organization(space.organization_id)
       begin
         @reservation = Reservation.create(reservation_params)
+        ReservationCount.add(@reservation)
       rescue ActiveRecord::RecordInvalid, ActiveRecord::NotNullViolation => e
         logger.debug e
         raise BadRequestError
@@ -55,7 +56,11 @@ class Api::Space::ReservationController < ApplicationController
   end
 
   def destroy
-    @reservation.destroy
+    ActiveRecord::Base.transaction do
+      reservation = Reservation.find(params[:id])
+      ReservationCount.remove(reservation)
+      reservation.destroy
+    end
     render json: "success"
   end
 
