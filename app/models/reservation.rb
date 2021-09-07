@@ -40,7 +40,7 @@ class Reservation < ApplicationRecord
   def validate_numbers_on_create
     capacity = Space.find(self.space_id).capacity
     common = Reservation.common_part(self.space_id, self.start_time, self.end_time).sum(:numbers)
-    errors.add(:numbers, "予約制限がいっぱいです", strict: true) if common + self.numbers > capacity
+    errors.add(:numbers, "予約がいっぱいです", strict: true) if common + self.numbers > capacity
   end
 
   def validate_numbers_on_update
