@@ -4,7 +4,6 @@ class Api::Space::ReservationController < ApplicationController
   before_action :check_perm, only: [:update, :destroy]
 
   def create
-    raise BadRequestError if DateTime.parse(params[:end_time]) - DateTime.parse(params[:start_time]) <= 0
     space = Space.with_organization.find(params[:space_id])
     ActiveRecord::Base.transaction do
       raise ForbiddenError if !@current_user.belong_organization(space.organization_id)

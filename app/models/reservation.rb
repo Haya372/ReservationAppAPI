@@ -1,6 +1,8 @@
 class Reservation < ApplicationRecord
 
   validates :numbers, presence: true, on: :update
+  validate :validate_start_time
+  validate :validate_end_time
 
   belongs_to :user
   belongs_to :space
@@ -23,4 +25,12 @@ class Reservation < ApplicationRecord
     }
     joins(:space, space: :organization).select(columns.chop)
   }
+
+  def validate_start_time
+    errors.add(:start_time, "は１ヶ月以内に設定してください", strict: true) if self.start_time > 1.month.from_now
+  end
+
+  def validate_end_time
+    errors.add(:end_time, "は開始時間より後にしてください", strict: true) if self.start_time >= self.end_time
+  end
 end

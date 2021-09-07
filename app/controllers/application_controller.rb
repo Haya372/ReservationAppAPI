@@ -7,6 +7,7 @@ class ApplicationController < ActionController::API
   rescue_from JWT::VerificationError, with: :handle_un_authorization_err
   rescue_from ForbiddenError, with: :handle_forbidden_error
   rescue_from BadRequestError, with: :handle_badrequest_error
+  rescue_from ActiveModel::StrictValidationFailed, with: :handle_validation_error
 
   def handle_un_authorization_err
     logger.error("authorization error")
@@ -25,6 +26,11 @@ class ApplicationController < ActionController::API
 
   def handle_badrequest_error
     logger.error('bad request')
+    render json: "Bad Request", status: :bad_request
+  end
+
+  def handle_validation_error(e)
+    logger.debug e
     render json: "Bad Request", status: :bad_request
   end
 end

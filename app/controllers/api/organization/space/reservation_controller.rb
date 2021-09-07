@@ -3,7 +3,6 @@ class Api::Organization::Space::ReservationController < ApplicationController
   before_action :jwt_authenticate
 
   def create
-    raise BadRequestError if DateTime.parse(params[:end_time]) - DateTime.parse(params[:start_time]) <= 0
     ActiveRecord::Base.transaction do
       raise ForbiddenError if !@current_user.belong_organization(params[:organization_id])
       begin
