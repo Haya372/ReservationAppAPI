@@ -26,7 +26,8 @@ module JwtAuth
       # decode後は[ payload, header ]の形で返ってくる
       decoded_token = JWT.decode encoded_token, SECRET_KEY, true, { nbf_leeway: EXPIRES_IN, algorithm: 'HS256' }
       decoded_token.first
-    rescue JWT::ExpiredSignature
+    rescue JWT::ExpiredSignature => e
+      logger.debug e
       # expired error
       raise TokenExpiredError.new("トークンが期限切れです。")
     end

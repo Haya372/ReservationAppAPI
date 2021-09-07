@@ -9,6 +9,7 @@ class Api::OrganizationController < ApplicationController
         @organization = Organization.create(organization_params)
         UserOrganization.create(user_id: @current_user.id, organization_id: @organization.id, role: ["create", "read", "update", "delete"])
       rescue ActiveRecord::RecordInvalid, ActiveRecord::NotNullViolation => e
+        logger.debug e
         raise BadRequestError
       end
     end
@@ -19,7 +20,8 @@ class Api::OrganizationController < ApplicationController
     organization = Organization.find(params[:id])
     begin
       organization.update!(organization_params)
-    rescue ActiveRecord::RecordInvalid, ActiveRecord::NotNullViolation
+    rescue ActiveRecord::RecordInvalid, ActiveRecord::NotNullViolation => e
+      logger.debug e
       raise BadRequestError
     end
     render json: organization

@@ -12,7 +12,8 @@ class Api::Space::ReservationController < ApplicationController
         @reservation = Reservation.create(reservation_params)
         end
         raise ForbiddenError.new("予約がいっぱいです。") if !reservable?(space.capacity)
-      rescue ActiveRecord::RecordInvalid, ActiveRecord::NotNullViolation
+      rescue ActiveRecord::RecordInvalid, ActiveRecord::NotNullViolation => e
+        logger.debug e
         raise BadRequestError
       end
     end
@@ -50,7 +51,8 @@ class Api::Space::ReservationController < ApplicationController
           #Ex:- :null => false]
           raise ForbiddenError.new("予約がいっぱいです。") if !reservable?
         end
-      rescue ActiveRecord::RecordInvalid, ActiveRecord::NotNullViolation
+      rescue ActiveRecord::RecordInvalid, ActiveRecord::NotNullViolation => e
+        logger.debug e
         raise BadRequestError
       end
     end

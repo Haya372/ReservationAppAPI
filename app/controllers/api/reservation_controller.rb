@@ -17,7 +17,8 @@ class Api::ReservationController < ApplicationController
           #Ex:- :null => false]
           raise ForbiddenError.new("予約がいっぱいです。") if !reservable?
         end
-      rescue ActiveRecord::RecordInvalid, ActiveRecord::NotNullViolation
+      rescue ActiveRecord::RecordInvalid, ActiveRecord::NotNullViolation => e
+        logger.debug e
         raise BadRequestError
       end
     end

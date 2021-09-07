@@ -7,7 +7,8 @@ class Api::Organization::SpaceController < ApplicationController
     ActiveRecord::Base.transaction do
       begin
         @space = Space.create(space_params)
-      rescue ActiveRecord::NotNullViolation
+      rescue ActiveRecord::NotNullViolation => e
+        logger.debug e
         raise BadRequestError
       end
     end

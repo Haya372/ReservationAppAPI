@@ -7,7 +7,8 @@ class Api::UserController < ApplicationController
       user = User.create!(user_params)
       token = encode(user.id, user.name)
       response.headers['X-Authentication-Token'] = token
-    rescue ActiveRecord::RecordInvalid, ActiveRecord::NotNullViolation
+    rescue ActiveRecord::RecordInvalid, ActiveRecord::NotNullViolation => e
+      logger.debug e
       raise BadRequestError
     end
     render json: user
@@ -29,7 +30,8 @@ class Api::UserController < ApplicationController
   def update
     begin
       @current_user.update!(user_params)
-    rescue ActiveRecord::RecordInvalid, ActiveRecord::NotNullViolation
+    rescue ActiveRecord::RecordInvalid, ActiveRecord::NotNullViolation => e
+      logger.debug e
       raise BadRequestError
     end
     render json: @current_user
