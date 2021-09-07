@@ -8,14 +8,9 @@ class Api::Organization::Space::ReservationController < ApplicationController
       raise ForbiddenError if !@current_user.belong_organization(params[:organization_id])
       begin
         @reservation = Reservation.create(reservation_params)
-        if !params[:users].blank?
-          params[:users].each{ |user_id|
-            user = User.find(user_id)
-            @reservation.users << user if !user.blank?
-          }
-        end
         raise ForbiddenError.new("予約がいっぱいです。") if !reservable?
-      rescue ActiveRecord::RecordInvalid, ActiveRecord::NotNullViolation
+      rescue ActiveRecord::RecordInvalid, ActiveRecord::NotNullViolation => e
+        logger.debug e
         raise BadRequestError
       end
     end
@@ -50,7 +45,8 @@ class Api::Organization::Space::ReservationController < ApplicationController
         if !params[:numbers].blank?
           raise ForbiddenError.new("予約がいっぱいです。") if !reservable?
         end
-      rescue ActiveRecord::RecordInvalid, ActiveRecord::NotNullViolation
+      rescue ActiveRecord::RecordInvalid, ActiveRecord::NotNullViolation => e
+        logger.debug e
         raise BadRequestError
       end
     end
@@ -65,7 +61,7 @@ class Api::Organization::Space::ReservationController < ApplicationController
   end
 
   def reservation_params
-    { space_id: params[:space_id], numbers: params[:numbers], start_time: params[:start_time], end_time: params[:end_time], user_id: @current_user.id }
+    { space_id: params[:space_id], numbers: params[:numbers], start_time: params[:start_time], end_time: params[:end_time], user_id: @current_user.id, users: params[:users] }
   end
 
   def reservation_update_params
@@ -79,7 +75,7 @@ class Api::Organization::Space::ReservationController < ApplicationController
   private
   def reservable?
     capacity = Space.select(:capacity).find(permitted_space_id[:space_id])
-    common = Reservation.common_part(permitted_space_id[:space_id], params.permit(:start_time)[:start_time], params.permit(:end_time)[:end_time]).sum(:numbers)
+    common = Reservation.common_part(permitted_space_id[:space_id], params[:start_time], params[:end_time]).sum(:numbers)
     common <= capacity[:capacity]
   end
 

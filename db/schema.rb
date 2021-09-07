@@ -10,17 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_30_155319) do
+ActiveRecord::Schema.define(version: 2021_09_06_145805) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "organization_spaces", force: :cascade do |t|
-    t.bigint "organization_id"
-    t.bigint "space_id"
-    t.index ["organization_id"], name: "index_organization_spaces_on_organization_id"
-    t.index ["space_id"], name: "index_organization_spaces_on_space_id"
-  end
 
   create_table "organizations", force: :cascade do |t|
     t.string "name", null: false
@@ -29,52 +22,44 @@ ActiveRecord::Schema.define(version: 2021_08_30_155319) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "reservation_counts", force: :cascade do |t|
+    t.bigint "space_id"
+    t.string "date", null: false
+    t.integer "total_numbers"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["date"], name: "index_reservation_counts_on_date"
+    t.index ["space_id"], name: "index_reservation_counts_on_space_id"
+  end
+
   create_table "reservations", force: :cascade do |t|
     t.bigint "space_id"
+    t.bigint "user_id"
     t.integer "numbers", null: false
+    t.integer "users", array: true
     t.datetime "start_time", null: false
     t.datetime "end_time", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "user_id", null: false
     t.index ["space_id"], name: "index_reservations_on_space_id"
     t.index ["user_id"], name: "index_reservations_on_user_id"
   end
 
-  create_table "roles", force: :cascade do |t|
-    t.string "role", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
   create_table "spaces", force: :cascade do |t|
     t.string "name", null: false
+    t.bigint "organization_id"
+    t.integer "capacity", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "capacity"
+    t.index ["organization_id"], name: "index_spaces_on_organization_id"
   end
 
   create_table "user_organizations", force: :cascade do |t|
     t.bigint "user_id"
     t.bigint "organization_id"
+    t.string "role", null: false, array: true
     t.index ["organization_id"], name: "index_user_organizations_on_organization_id"
     t.index ["user_id"], name: "index_user_organizations_on_user_id"
-  end
-
-  create_table "user_reservations", force: :cascade do |t|
-    t.bigint "user_id"
-    t.bigint "reservation_id"
-    t.index ["reservation_id"], name: "index_user_reservations_on_reservation_id"
-    t.index ["user_id"], name: "index_user_reservations_on_user_id"
-  end
-
-  create_table "user_roles", force: :cascade do |t|
-    t.bigint "user_id"
-    t.bigint "role_id"
-    t.bigint "organization_id", null: false
-    t.index ["organization_id"], name: "index_user_roles_on_organization_id"
-    t.index ["role_id"], name: "index_user_roles_on_role_id"
-    t.index ["user_id"], name: "index_user_roles_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -86,15 +71,10 @@ ActiveRecord::Schema.define(version: 2021_08_30_155319) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  add_foreign_key "organization_spaces", "organizations"
-  add_foreign_key "organization_spaces", "spaces"
+  add_foreign_key "reservation_counts", "spaces"
   add_foreign_key "reservations", "spaces"
   add_foreign_key "reservations", "users"
+  add_foreign_key "spaces", "organizations"
   add_foreign_key "user_organizations", "organizations"
   add_foreign_key "user_organizations", "users"
-  add_foreign_key "user_reservations", "reservations"
-  add_foreign_key "user_reservations", "users"
-  add_foreign_key "user_roles", "organizations"
-  add_foreign_key "user_roles", "roles"
-  add_foreign_key "user_roles", "users"
 end

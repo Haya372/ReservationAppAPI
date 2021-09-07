@@ -1,14 +1,14 @@
 class Api::Organization::SpaceController < ApplicationController
   include JwtAuth
   before_action :jwt_authenticate
-  before_action :check_perm, except: [:show, :index]
+  before_action :check_perm
 
   def create
     ActiveRecord::Base.transaction do
       begin
         @space = Space.create(space_params)
-        @space.organizations << Organization.find(permitted_organization_id[:organization_id])
-      rescue ActiveRecord::NotNullViolation
+      rescue ActiveRecord::NotNullViolation => e
+        logger.debug e
         raise BadRequestError
       end
     end
@@ -20,7 +20,7 @@ class Api::Organization::SpaceController < ApplicationController
   end
 
   def index
-    render json: Space.belong_organization(permitted_organization_id[:organization_id])
+    render json: Space.where(permitted_organization_id)
   end
 
   def update
@@ -35,7 +35,7 @@ class Api::Organization::SpaceController < ApplicationController
   end
 
   def space_params
-    params.permit(:name, :capacity)
+    params.permit(:name, :capacity, :organization_id)
   end
 
   def permitted_organization_id
@@ -43,8 +43,6 @@ class Api::Organization::SpaceController < ApplicationController
   end
 
   def check_perm
-    # role_id = 1にしているがこれはroleが増えてきたら処理を書き換える
-    roles = UserRole.where(user_id: @current_user.id).where(permitted_organization_id).where(role_id: 1)
-    raise ForbiddenError if roles.blank?
+    raise ForbiddenError if !@current_user.has_role?(params[:organization_id], params[:action])
   end
 end

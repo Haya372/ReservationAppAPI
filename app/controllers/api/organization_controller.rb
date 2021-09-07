@@ -1,15 +1,15 @@
 class Api::OrganizationController < ApplicationController
   include JwtAuth
   before_action :jwt_authenticate
-  before_action :check_perm, only: [:destroy, :update]
+  before_action :check_perm
 
   def create
     ActiveRecord::Base.transaction do
       begin
         @organization = Organization.create(organization_params)
-        @organization.users << @current_user
-        @organization.user_roles << UserRole.new(user_id: @current_user.id, role_id: 1)
+        UserOrganization.create(user_id: @current_user.id, organization_id: @organization.id, role: ["create", "read", "update", "delete"])
       rescue ActiveRecord::RecordInvalid, ActiveRecord::NotNullViolation => e
+        logger.debug e
         raise BadRequestError
       end
     end
@@ -20,7 +20,8 @@ class Api::OrganizationController < ApplicationController
     organization = Organization.find(params[:id])
     begin
       organization.update!(organization_params)
-    rescue ActiveRecord::RecordInvalid, ActiveRecord::NotNullViolation
+    rescue ActiveRecord::RecordInvalid, ActiveRecord::NotNullViolation => e
+      logger.debug e
       raise BadRequestError
     end
     render json: organization
@@ -46,9 +47,7 @@ class Api::OrganizationController < ApplicationController
   end
 
   def check_perm
-    # role_id = 1にしているがこれはroleが増えてきたら処理を書き換える
-    roles = UserRole.where(user_id: @current_user.id).where(organization_id: params[:id]).where(role_id: 1)
-    raise ForbiddenError if roles.blank?
+    raise ForbiddenError if !@current_user.has_role?(params[:organization_id], params[:action])
   end
 
   def organization_params

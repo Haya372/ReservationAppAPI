@@ -7,9 +7,7 @@ class Organization < ApplicationRecord
 
   has_many :user_organizations, dependent: :delete_all
   has_many :users, through: :user_organizations
-  has_many :organization_spaces, dependent: :delete_all
-  has_many :spaces, through: :organization_spaces, dependent: :delete_all
-  has_many :user_roles, dependent: :delete_all
+  has_many :spaces, dependent: :delete_all
 
   scope :show_params, -> {
     select(:id, :name)
@@ -17,5 +15,12 @@ class Organization < ApplicationRecord
 
   def self.show_attributes
     ["id", "name"]
+  end
+
+  def self.search_user(organization_id, search)
+    search = "" if search.nil?
+    keyword = sanitize_sql_like(search) + "%"
+    self.find(organization_id).users.select(:id, :name, :kana).where('kana like ?', keyword)
+                    .or(self.find(organization_id).users.select(:id, :name, :kana).where('name like ?', keyword))
   end
 end

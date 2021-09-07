@@ -10,14 +10,10 @@ class Api::Space::ReservationController < ApplicationController
       raise ForbiddenError if !@current_user.belong_organization(space.organization_id)
       begin
         @reservation = Reservation.create(reservation_params)
-        if !params[:users].blank?
-          params[:users].each{ |user_id|
-            user = User.find(user_id)
-            @reservation.users << user if !user.blank?
-          }
         end
         raise ForbiddenError.new("予約がいっぱいです。") if !reservable?(space.capacity)
-      rescue ActiveRecord::RecordInvalid, ActiveRecord::NotNullViolation
+      rescue ActiveRecord::RecordInvalid, ActiveRecord::NotNullViolation => e
+        logger.debug e
         raise BadRequestError
       end
     end
@@ -55,7 +51,8 @@ class Api::Space::ReservationController < ApplicationController
           #Ex:- :null => false]
           raise ForbiddenError.new("予約がいっぱいです。") if !reservable?
         end
-      rescue ActiveRecord::RecordInvalid, ActiveRecord::NotNullViolation
+      rescue ActiveRecord::RecordInvalid, ActiveRecord::NotNullViolation => e
+        logger.debug e
         raise BadRequestError
       end
     end
@@ -77,7 +74,7 @@ class Api::Space::ReservationController < ApplicationController
   end
 
   def reservation_params
-    { space_id: params[:space_id], numbers: params[:numbers], start_time: params[:start_time], end_time: params[:end_time], user_id: @current_user.id }
+    { space_id: params[:space_id], numbers: params[:numbers], start_time: params[:start_time], end_time: params[:end_time], user_id: @current_user.id, users: params[:users] }
   end
 
   def reservation_update_params
