@@ -7,15 +7,13 @@ import TextForm from '../components/textform.jsx';
 import Divider from '@material-ui/core/Divider';
 import Button from '@material-ui/core/Button';
 import { useHistory } from 'react-router';
+import Alert from '@material-ui/lab/Alert';
 
 export default function Login(props){
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const history = useHistory();
-
-  if(localStorage.getItem('token')){
-    history.push('/');
-  }
+  const [err, setErr] = useState(false);
 
   const onChangeEmail = (e) => {
     setEmail(e.target.value);
@@ -33,12 +31,16 @@ export default function Login(props){
       localStorage.setItem('token', response.data.token);
       history.push('/');
     } catch(err) {
+      if(err.response.status === 401){
+        setErr(true);
+        return;
+      }
       alert(err);
     }
   }
   
   return (
-    <Layout>
+    <Layout header="Login">
       <div className="max-w-lg m-auto">
         <Card>
           <CardContent>
@@ -51,7 +53,6 @@ export default function Login(props){
                   value={email}
                   onChange={onChangeEmail}
                   fullWidth
-                  notNull
                 />
               </div>
               <div className="my-2">
@@ -61,9 +62,14 @@ export default function Login(props){
                   value={password}
                   onChange={onChangePassword}
                   fullWidth
-                  notNull
                 />
               </div>
+              { err ?
+                <div>
+                  <Alert severity="error">メールアドレスまたはパスワードが違います</Alert>
+                </div>
+              : null
+              }
               <div className="my-4 text-center">
                 <Button
                   type="submit"
