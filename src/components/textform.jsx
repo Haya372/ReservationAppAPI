@@ -26,6 +26,7 @@ export default function TextForm(props){
         variant={props.variant}
         type={props.type}
         error={err}
+        disabled={props.disabled}
       />
       { err ?
         <Alert severity="error">{errMsg}</Alert>

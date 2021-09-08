@@ -1,13 +1,13 @@
 import React from 'react';
 import List from '@material-ui/core/List';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
-import Avatar from '@material-ui/core/Avatar';
+import { useHistory } from 'react-router';
 
 export default function MyList(props){
   const items = [];
   const primary = props.primary;
+  const history = useHistory();
 
   props.items.forEach((item) => {
     let secondary = "";
@@ -22,8 +22,17 @@ export default function MyList(props){
       });
     }
 
+    const onClick = () => {
+      const path = `${props.basePath}/${item[props.id]}`;
+      history.push(path);
+    }
+
     items.push(
-      <div key={item.id} className="rounded" className="p-4 flex items-center border hover:bg-gray-200">
+      <div key={item.id}
+        className="rounded"
+        className="p-4 flex items-center border hover:bg-gray-200"
+        onClick={onClick}
+      >
         <div className="flex-grow">
           <ListItemText primary={item[primary]} secondary={secondary} />
         </div>
