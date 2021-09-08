@@ -23,4 +23,10 @@ class Organization < ApplicationRecord
     self.find(organization_id).users.select(:id, :name, :kana).where('kana like ?', keyword)
                     .or(self.find(organization_id).users.select(:id, :name, :kana).where('name like ?', keyword))
   end
+
+  def self.search(search)
+    search = "" if search.blank?
+    keyword = sanitize_sql_like(search) + "%"
+    self.select(:id, :name).where('name like ?', keyword)
+  end
 end
