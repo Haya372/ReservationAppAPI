@@ -1,6 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import axios from 'axios';
+import { BrowserRouter as Router, Route } from "react-router-dom";
+import Login from './pages/login.jsx';
+import './styles.css';
 
 const Index = () => {
 
@@ -15,6 +18,11 @@ const Index = () => {
     <div>
       <h1>Hello React!</h1>
       <button onClick={onClick}>API test</button>
+      <Router>
+        <Route path='/login'>
+          <Login />
+        </Route>
+      </Router>
     </div>
   )
   ;
