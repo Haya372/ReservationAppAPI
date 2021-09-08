@@ -3,7 +3,7 @@ class Api::Admin::OrganizationController < ApplicationController
   before_action :jwt_authenticate
 
   def index
-    organizations = @current_user.organization_with_role;
+    organizations = @current_user.organization_with_role(params[:search]);
     render json: organizations
   end
 end
