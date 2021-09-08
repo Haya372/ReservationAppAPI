@@ -38,7 +38,7 @@ export default function Login(props){
   }
   
   return (
-    <Layout>
+    <Layout header="Login">
       <div className="max-w-lg m-auto">
         <Card>
           <CardContent>
