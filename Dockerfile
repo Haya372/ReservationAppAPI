@@ -3,6 +3,7 @@ FROM ruby:3.0.0
 RUN apt-get update -qq
 RUN curl -sL https://deb.nodesource.com/setup_14.x | bash -
 RUN apt-get install -y nodejs postgresql-client
+RUN npm install npm@latest -g
 RUN mkdir /myapp
 WORKDIR /myapp
 ENV TZ Asia/Tokyo
@@ -11,7 +12,6 @@ COPY Gemfile.lock /myapp/Gemfile.lock
 RUN bundle install
 
 COPY . /myapp
-RUN npm install
 
 # Add a script to be executed every time the container starts.
 COPY entrypoint.sh /usr/bin/
