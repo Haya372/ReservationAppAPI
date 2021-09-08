@@ -29,4 +29,9 @@ class Organization < ApplicationRecord
     keyword = sanitize_sql_like(search) + "%"
     self.select(:id, :name).where('name like ?', keyword)
   end
+
+  def self.search_reservation_count(organization_id, keyword)
+    keyword = sanitize_sql_like(keyword) + '%'
+    self.find(organization_id).spaces.joins(:reservation_counts).select('reservation_counts.*').where('reservation_counts.date like ?', keyword)
+  end
 end

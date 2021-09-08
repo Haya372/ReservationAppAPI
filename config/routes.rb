@@ -15,12 +15,10 @@ Rails.application.routes.draw do
             resources :reservation
           end
         end
-      end
 
-      scope module: :organization do
         resources :user, only: [:index]
         resources :reservation, only: [:index]
-        resources :role, except: [:update]
+        resources :reservation_cnt, only: [:index]
       end
     end
 
