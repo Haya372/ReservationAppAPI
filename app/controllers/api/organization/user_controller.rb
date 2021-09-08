@@ -5,7 +5,6 @@ class Api::Organization::UserController < ApplicationController
 
   def index
     raise ForbiddenError if UserOrganization.where(user_id: @current_user.id).where(organization_id: params[:organization_id]).blank?
-    keyword = params[:search].blank? ? "%" : params[:search] + "%"
     render json: Organization.search_user(params[:organization_id], params[:search])
   end
 
