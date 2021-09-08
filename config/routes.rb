@@ -28,6 +28,10 @@ Rails.application.routes.draw do
       end
     end
     resources :reservation, only: [:show, :update, :destroy]
+
+    namespace :admin do
+      resources :organization
+    end
   end
 
 end
