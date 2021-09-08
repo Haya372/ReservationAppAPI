@@ -47,7 +47,7 @@ class Api::OrganizationController < ApplicationController
   end
 
   def check_perm
-    raise ForbiddenError if !@current_user.has_role?(params[:organization_id], params[:action])
+    raise ForbiddenError if !@current_user.has_role?(params[:id], params[:action])
   end
 
   def organization_params

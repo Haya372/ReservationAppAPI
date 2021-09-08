@@ -35,6 +35,10 @@ class User < ApplicationRecord
     else
       role = action
     end
-    !user_organization.role.find{|r| r == role}.blank?
+    if user_organization.blank?
+      false
+    else
+      !user_organization.role.find{|r| r == role}.blank?
+    end
   end
 end
