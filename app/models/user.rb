@@ -11,6 +11,14 @@ class User < ApplicationRecord
   has_many :organizations, through: :user_organizations
   has_many :reservations, dependent: :delete_all
 
+  def organization_with_role
+    columns = 'user_organizations.role as role,'
+    Organization.show_attributes.each {|attr|
+      columns += "organizations." +attr + " as organization_" + attr + ","
+    }
+    self.organizations.select(columns.chop)
+  end
+
   def belong_organization(organization_id)
     !UserOrganization.where(user_id: self.id).where(organization_id: organization_id).blank?
   end
