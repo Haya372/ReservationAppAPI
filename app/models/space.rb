@@ -3,6 +3,7 @@ class Space < ApplicationRecord
   validate :validate_capacity_on_update, on: :update
   has_many :reservations, dependent: :delete_all
   belongs_to :organization
+  has_many :reservation_counts, dependent: :delete_all
 
   scope :belong_organization, -> organization_id {
     joins(:organizations).where('organizations.id = ?', organization_id)
