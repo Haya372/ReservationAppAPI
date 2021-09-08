@@ -1,10 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import axios from 'axios';
 import { BrowserRouter as Router, Route, Redirect, Switch } from "react-router-dom";
 import Login from './pages/login.jsx';
 import Home from "./pages/home.jsx";
 import './styles.css';
+import theme from "./utils/theme.js";
+import { ThemeProvider } from "@material-ui/styles";
 
 const CustomRoute = (props) => {
   if(localStorage.getItem('token')){
@@ -16,16 +17,18 @@ const CustomRoute = (props) => {
 const Index = () => {
   return (
     <div>
-      <Router>
-        <Switch>
-          <Route path='/login'>
-            <Login />
-          </Route>
-          <CustomRoute path="/" exact>
-            <Home />
-          </CustomRoute>
-        </Switch>
-      </Router>
+      <ThemeProvider theme={theme}>
+        <Router>
+          <Switch>
+            <Route path='/login'>
+              <Login />
+            </Route>
+            <CustomRoute path="/" exact>
+              <Home />
+            </CustomRoute>
+          </Switch>
+        </Router>
+      </ThemeProvider>
     </div>
   )
   ;
