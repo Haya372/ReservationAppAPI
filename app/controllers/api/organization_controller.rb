@@ -1,7 +1,7 @@
 class Api::OrganizationController < ApplicationController
   include JwtAuth
   before_action :jwt_authenticate
-  before_action :check_perm
+  before_action :check_perm, except: [:index]
 
   def create
     ActiveRecord::Base.transaction do
@@ -38,7 +38,7 @@ class Api::OrganizationController < ApplicationController
   end
 
   def index
-    render json: Organization.all.select(:id, :name)
+    render json: Organization.search(params[:search])
   end
 
   def destroy
