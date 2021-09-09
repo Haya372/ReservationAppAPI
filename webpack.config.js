@@ -17,7 +17,8 @@ module.exports = {
   entry: "./src/index.js",
   output: {
     path: path.resolve('public'),
-    filename: '[name].js'
+    filename: '[name].js',
+    publicPath: '/'
   },
   module: {
     rules: [
