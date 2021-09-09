@@ -8,6 +8,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import TabItems from "../components/tabItems.jsx";
 import UserList from "../components/userList.jsx";
+import conf from '../configs/organization.js';
 
 export default function Organization(props){
   const { organization_id } = useParams();
@@ -15,19 +16,6 @@ export default function Organization(props){
 
   const onTabChange = (e, newValue) => {
     setTab(newValue);
-  }
-
-  const conf = {
-    name: {
-      size: 12,
-      required: true,
-      component: 'text',
-      props: {
-        fullWidth: true,
-        notNull: true,
-        label: "name"
-      }
-    },
   }
 
   return (
