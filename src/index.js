@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import { BrowserRouter as Router, Route, Redirect, Switch } from "react-router-dom";
 import Login from './pages/login.jsx';
 import Home from "./pages/home.jsx";
-import Organization from "./pages/organization.jsx";
+import OrganizationSpace from "./pages/organizationSpace.jsx";
 import './styles.css';
 import theme from "./utils/theme.js";
 import { ThemeProvider } from "@material-ui/styles";
@@ -27,8 +27,8 @@ const Index = () => {
             <CustomRoute path="/" exact>
               <Home />
             </CustomRoute>
-            <CustomRoute path="/organization/:id">
-              <Organization />
+            <CustomRoute path="/organization/:organization_id/space" exact>
+              <OrganizationSpace />
             </CustomRoute>
           </Switch>
         </Router>

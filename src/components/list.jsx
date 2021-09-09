@@ -2,12 +2,13 @@ import React from 'react';
 import List from '@material-ui/core/List';
 import ListItemText from '@material-ui/core/ListItemText';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
-import { useHistory } from 'react-router';
+import { useHistory, useLocation } from 'react-router';
 
 export default function MyList(props){
   const items = [];
   const primary = props.primary;
   const history = useHistory();
+  const location = useLocation();
 
   props.items.forEach((item) => {
     let secondary = "";
@@ -23,7 +24,8 @@ export default function MyList(props){
     }
 
     const onClick = () => {
-      const path = `${props.basePath}/${item[props.id]}`;
+      const suffix = props.pathSuffix || "";
+      const path = `${location.pathname}${props.path}/${item[props.id]}/${suffix}`;
       history.push(path);
     }
 

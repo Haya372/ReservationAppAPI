@@ -52,8 +52,9 @@ export default function Home(props){
         items={organizations}
         primary="organization_name"
         secondary={secondary}
-        basePath="/organization"
+        path="organization"
         id="organization_id"
+        pathSuffix="space"
       />
     </Layout>
   )
