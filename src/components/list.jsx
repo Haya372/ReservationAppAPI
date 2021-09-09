@@ -10,7 +10,7 @@ export default function MyList(props){
   const history = useHistory();
   const location = useLocation();
 
-  props.items.forEach((item) => {
+  props.items.forEach((item, idx) => {
     let secondary = "";
     if(typeof props.secondary === 'object'){
       Object.keys(props.secondary).forEach((key) => {
@@ -30,7 +30,7 @@ export default function MyList(props){
     }
 
     items.push(
-      <div key={item.id}
+      <div key={idx}
         className="rounded"
         className="p-4 flex items-center border hover:bg-gray-200"
         onClick={onClick}

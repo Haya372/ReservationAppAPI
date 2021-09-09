@@ -5,10 +5,12 @@ import axios from "../utils/axios.js";
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import Search from "../components/search.jsx";
+import { useHistory } from "react-router";
 
 export default function Home(props){
   const [organizations, setOrganizations] = useState([]);
   const [search, setSearch] = useState("");
+  const history = useHistory();
 
   useEffect(async () => {
     try{
@@ -33,6 +35,10 @@ export default function Home(props){
     setSearch(e.target.value);
   }
 
+  const onClickCreate = () => {
+    history.push('/organization/new')
+  }
+
   return (
     <Layout header="Home">
       <div className="flex items-center my-2">
@@ -43,7 +49,7 @@ export default function Home(props){
           value={search}
         />
         <div className="text-blue-400">
-          <Button endIcon={<AddIcon />} color="inherit" variant="outlined">
+          <Button endIcon={<AddIcon />} color="inherit" variant="outlined" onClick={onClickCreate}>
             新規作成
           </Button>
         </div>
