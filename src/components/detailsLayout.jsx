@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import Grid from '@material-ui/core/Grid';
-import TextForm from './textform.jsx';
 import LockIcon from '@material-ui/icons/Lock';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
 import Checkbox from '@material-ui/core/Checkbox';
 import Button from '@material-ui/core/Button';
 import axios from '../utils/axios.js';
 import equal from '../utils/equal.js';
+import resources from '../utils/resources.js';
 
 /*
  props: {
@@ -58,6 +58,7 @@ export default function DetailsLayout(props){
 
   const onClickCancel = () => {
     setItem(savedItem);
+    setLock(true);
   }
 
 
@@ -97,10 +98,10 @@ export default function DetailsLayout(props){
             {conf.component(inputProps)}
           </div>
         </Grid>)
-    }else{
+    }else if(typeof conf.component == 'string'){
       gridItems.push(<Grid item xs={conf.size || 12} key={key}>
         <div className={conf.classes || ""}>
-          <TextForm {...inputProps} />
+          {resources[conf.component](inputProps)}
         </div>
       </Grid>)
     }

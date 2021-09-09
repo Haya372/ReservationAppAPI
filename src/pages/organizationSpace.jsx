@@ -8,7 +8,6 @@ import AddIcon from '@material-ui/icons/Add';
 import Search from "../components/search.jsx";
 import Divider from "@material-ui/core/Divider";
 import DetailsLayout from "../components/detailsLayout.jsx";
-import TextForm from "../components/textform.jsx";
 
 export default function OrganizationSpace(props){
   const { organization_id } = useParams();
@@ -42,7 +41,7 @@ export default function OrganizationSpace(props){
     name: {
       size: 12,
       required: true,
-      component: (props) => <TextForm {...props} />,
+      component: 'text',
       props: {
         fullWidth: true,
         notNull: true,
