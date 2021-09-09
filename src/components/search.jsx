@@ -14,6 +14,7 @@ export default function Search(props){
           placeholder="Search..."
           value={props.value}
           onChange={(e) => props.onChange(e)}
+          fullWidth
         />
       </div>
     </div>
