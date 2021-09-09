@@ -62,7 +62,8 @@ export default function SpaceReservation(props){
       required: true,
       component: 'number',
       props: {
-        min: '0'
+        min: '0',
+        label: 'capacity',
       }
     }
   }

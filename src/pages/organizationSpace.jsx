@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router";
+import { useHistory, useParams } from "react-router";
 import Layout from "../components/layout.jsx";
 import List from '../components/list.jsx';
 import axios from "../utils/axios.js";
@@ -13,6 +13,7 @@ export default function OrganizationSpace(props){
   const { organization_id } = useParams();
   const [search, setSearch] = useState("");
   const [spaces, setSpaces] = useState([]);
+  const history = useHistory();
 
   useEffect(async () => {
     try{
@@ -50,6 +51,10 @@ export default function OrganizationSpace(props){
     },
   }
 
+  const onClickCreate = () => {
+    history.push(`/organization/${organization_id}/space/new`)
+  }
+
   return (
     <Layout header="Organization">
       <DetailsLayout
@@ -69,7 +74,7 @@ export default function OrganizationSpace(props){
             value={search}
           />
           <div className="text-blue-400">
-            <Button endIcon={<AddIcon />} color="inherit" variant="outlined">
+            <Button endIcon={<AddIcon />} color="inherit" variant="outlined" onClick={onClickCreate}>
               新規作成
             </Button>
           </div>

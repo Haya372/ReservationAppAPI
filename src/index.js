@@ -6,6 +6,7 @@ import Home from "./pages/home.jsx";
 import OrganizationSpace from "./pages/organizationSpace.jsx";
 import SpaceReservation from "./pages/spaceReservation.jsx";
 import OrganizationCreate from "./pages/organizationCreate.jsx";
+import SpaceCreate from "./pages/spaceCreate.jsx";
 import './styles.css';
 import theme from "./utils/theme.js";
 import { ThemeProvider } from "@material-ui/styles";
@@ -34,6 +35,9 @@ const Index = () => {
             </CustomRoute>
             <CustomRoute path="/organization/:organization_id/space" exact>
               <OrganizationSpace />
+            </CustomRoute>
+            <CustomRoute path="/organization/:organization_id/space/new" exact>
+              <SpaceCreate />
             </CustomRoute>
             <CustomRoute path="/organization/:organization_id/space/:space_id/reservation" exact>
               <SpaceReservation />

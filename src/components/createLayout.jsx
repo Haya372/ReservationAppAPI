@@ -49,7 +49,7 @@ export default function CreateLayout(props){
       const id = res.data.id;
       if(props.resourceName == 'organization'){
         history.push(`/organization/${id}/space`)
-      }else{
+      }else if(props.resourceName == 'space'){
         history.push(`/organization/${props.organizationId}/space/${id}/reservation`)
       }
     } catch(err) {
