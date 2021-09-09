@@ -42,5 +42,6 @@ class Organization < ApplicationRecord
       columns += "users." +attr + " as user_" + attr + ","
     }
     self.users.select(columns.chop).where('users.name like ?', keyword)
+          .or(users.select(columns.chop).where('users.kana like ?', keyword))
   end
 end

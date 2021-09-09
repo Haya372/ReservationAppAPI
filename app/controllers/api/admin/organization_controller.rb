@@ -10,7 +10,7 @@ class Api::Admin::OrganizationController < ApplicationController
 
   def user
     organization = Organization.find(params[:id])
-    render json: organization.user_with_role
+    render json: organization.user_with_role(params[:search])
   end
 
   private
