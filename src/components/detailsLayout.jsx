@@ -87,10 +87,10 @@ export default function DetailsLayout(props){
     }
 
     const inputProps = {
-      ...conf.props,
       value,
       onChange,
-      disabled: lock
+      disabled: lock,
+      ...conf.props,
     }
     if(typeof conf.component == 'function'){
       gridItems.push(<Grid item xs={conf.size || 12} key={key}>
