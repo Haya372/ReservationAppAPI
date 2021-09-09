@@ -7,6 +7,7 @@ import SpaceList from "../components/spaceList.jsx";
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import TabItems from "../components/tabItems.jsx";
+import UserList from "../components/userList.jsx";
 
 export default function Organization(props){
   const { organization_id } = useParams();
@@ -46,11 +47,13 @@ export default function Organization(props){
         onChange={onTabChange}
       >
         <Tab label="Spaces"/>
+        <Tab label="Users"/>
       </Tabs>
       <TabItems
         value={tab}
         items={[
           <SpaceList organizationId={organization_id} />,
+          <UserList organizationId={organization_id} />,
         ]}
       />
     </Layout>

@@ -28,12 +28,12 @@ class User < ApplicationRecord
     user_organization = UserOrganization.where(user_id: self.id).find_by(organization_id: organization_id)
     role = nil
     case action
-    when "show", "index" then
-      role = "read"
     when "destroy" then
       role = "delete"
-    else
+    when "update", "create" then
       role = action
+    else
+      role = "read"
     end
     if user_organization.blank?
       false
@@ -41,4 +41,9 @@ class User < ApplicationRecord
       !user_organization.role.find{|r| r == role}.blank?
     end
   end
+
+  def self.show_attributes
+    ["id", "name", "kana", "email"]
+  end
+
 end

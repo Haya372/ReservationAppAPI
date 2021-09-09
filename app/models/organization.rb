@@ -34,4 +34,13 @@ class Organization < ApplicationRecord
     keyword = sanitize_sql_like(keyword) + '%'
     self.find(organization_id).spaces.joins(:reservation_counts).select('reservation_counts.*').where('reservation_counts.date like ?', keyword)
   end
+
+  def user_with_role(search = "")
+    keyword = ActiveRecord::Base.sanitize_sql_like(search) + '%'
+    columns = 'user_organizations.role as role,'
+    User.show_attributes.each {|attr|
+      columns += "users." +attr + " as user_" + attr + ","
+    }
+    self.users.select(columns.chop).where('users.name like ?', keyword)
+  end
 end
