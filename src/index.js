@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import { BrowserRouter as Router, Route, Redirect, Switch } from "react-router-dom";
 import Login from './pages/login.jsx';
 import Home from "./pages/home.jsx";
-import OrganizationSpace from "./pages/organizationSpace.jsx";
+import Organization from "./pages/organization.jsx";
 import SpaceReservation from "./pages/spaceReservation.jsx";
 import OrganizationCreate from "./pages/organizationCreate.jsx";
 import SpaceCreate from "./pages/spaceCreate.jsx";
@@ -33,13 +33,13 @@ const Index = () => {
             <CustomRoute path="/organization/new" exact>
               <OrganizationCreate />
             </CustomRoute>
-            <CustomRoute path="/organization/:organization_id/space" exact>
-              <OrganizationSpace />
+            <CustomRoute path="/organization/:organization_id" exact>
+              <Organization />
             </CustomRoute>
             <CustomRoute path="/organization/:organization_id/space/new" exact>
               <SpaceCreate />
             </CustomRoute>
-            <CustomRoute path="/organization/:organization_id/space/:space_id/reservation" exact>
+            <CustomRoute path="/organization/:organization_id/space/:space_id" exact>
               <SpaceReservation />
             </CustomRoute>
           </Switch>

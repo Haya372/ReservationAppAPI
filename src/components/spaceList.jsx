@@ -1,33 +1,36 @@
 import React, { useState, useEffect } from "react";
-import Layout from '../components/layout.jsx';
-import List from "../components/list.jsx";
+import List from '../components/list.jsx';
 import axios from "../utils/axios.js";
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import Search from "../components/search.jsx";
 import { useHistory } from "react-router";
 
-export default function Home(props){
-  const [organizations, setOrganizations] = useState([]);
+export default function SpaceList(props){
   const [search, setSearch] = useState("");
+  const [spaces, setSpaces] = useState([]);
   const history = useHistory();
+
+  const onClickCreate = () => {
+    history.push(`/organization/${props.organizationId}/space/new`)
+  }
 
   useEffect(async () => {
     try{
-      const res = await axios.get('/api/admin/organization', { 
+      const res = await axios.get(`/api/organization/${props.organizationId}/space`, { 
         params: {
           search: search
         }
       });
-      setOrganizations(res.data);
+      setSpaces(res.data);
     } catch (err) {
       alert(err);
     }
   }, [search]);
-
+  
   const secondary = {
-    role: {
-      text: "role"
+    capacity: {
+      text: "capacity"
     }
   }
 
@@ -35,14 +38,9 @@ export default function Home(props){
     setSearch(e.target.value);
   }
 
-  const onClickCreate = () => {
-    history.push('/organization/new')
-  }
-
   return (
-    <Layout header="Home">
+    <div>
       <div className="flex items-center my-2">
-        <div className="text-2xl font-bold">所属団体一覧</div>
         <Search
           className="flex-grow"
           onChange={onChangeSearch}
@@ -55,12 +53,12 @@ export default function Home(props){
         </div>
       </div>
       <List
-        items={organizations}
-        primary="organization_name"
+        items={spaces}
+        primary="name"
         secondary={secondary}
-        path="organization"
-        id="organization_id"
+        path="space"
+        id="id"
       />
-    </Layout>
+    </div>
   )
 }
