@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router";
 import Layout from "../components/layout.jsx";
-import OrganizationDetail from "../components/organizationDetail.jsx";
 import List from '../components/list.jsx';
 import axios from "../utils/axios.js";
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import Search from "../components/search.jsx";
 import Divider from "@material-ui/core/Divider";
+import DetailsLayout from "../components/detailsLayout.jsx";
+import TextForm from "../components/textform.jsx";
+import { TextField } from "@material-ui/core";
 
 export default function OrganizationSpace(props){
   const { organization_id } = useParams();
@@ -37,11 +39,25 @@ export default function OrganizationSpace(props){
     setSearch(e.target.value);
   }
 
+  const conf = {
+    name: {
+      size: 12,
+      required: true,
+      component: (props) => <TextForm {...props} />,
+      props: {
+        fullWidth: true,
+        notNull: true,
+        label: "name"
+      }
+    },
+  }
+
   return (
     <Layout header="organization">
-      <OrganizationDetail
-        id={organization_id}
-        editable
+      <DetailsLayout
+        apiPath={`/api/organization/${organization_id}`}
+        disabled={false}
+        conf={conf}
       />
       <div className="my-4">
         <Divider />
