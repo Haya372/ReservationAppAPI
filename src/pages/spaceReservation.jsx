@@ -9,27 +9,36 @@ import Search from "../components/search.jsx";
 import Divider from "@material-ui/core/Divider";
 import DetailsLayout from "../components/detailsLayout.jsx";
 
-export default function OrganizationSpace(props){
-  const { organization_id } = useParams();
+export default function SpaceReservation(props){
+  const { organization_id, space_id } = useParams();
   const [search, setSearch] = useState("");
-  const [spaces, setSpaces] = useState([]);
+  const [reservations, setReservations] = useState([]);
 
   useEffect(async () => {
     try{
-      const res = await axios.get(`/api/organization/${organization_id}/space`, { 
+      const res = await axios.get(`/api/organization/${organization_id}/space/${space_id}/reservation`, { 
         params: {
           search: search
         }
       });
-      setSpaces(res.data);
+      setReservations(res.data);
     } catch (err) {
       alert(err);
     }
   }, [search]);
-  
+
   const secondary = {
-    capacity: {
-      text: "capacity"
+    numbers: {
+      text: "予約",
+      suffix: "人,"
+    },
+    start_time: {
+      text: "start",
+      suffix: ","
+    },
+    end_time: {
+      text: "end",
+      suffix: ","
     }
   }
 
@@ -48,12 +57,20 @@ export default function OrganizationSpace(props){
         label: "name"
       }
     },
+    capacity: {
+      size: 12,
+      required: true,
+      component: 'number',
+      props: {
+        min: '0'
+      }
+    }
   }
 
   return (
-    <Layout header="Organization">
+    <Layout header="Space">
       <DetailsLayout
-        apiPath={`/api/organization/${organization_id}`}
+        apiPath={`/api/organization/${organization_id}/space/${space_id}`}
         disabled={false}
         conf={conf}
       />
@@ -62,7 +79,7 @@ export default function OrganizationSpace(props){
       </div>
       <div>
         <div className="flex items-center my-2">
-          <div className="text-2xl font-bold">場所一覧</div>
+          <div className="text-2xl font-bold">予約一覧</div>
           <Search
             className="flex-grow"
             onChange={onChangeSearch}
@@ -75,14 +92,14 @@ export default function OrganizationSpace(props){
           </div>
         </div>
         <List
-          items={spaces}
-          primary="name"
+          items={reservations}
+          primary="space_name"
           secondary={secondary}
           path=""
           id="id"
-          pathSuffix="reservation"
         />
       </div>
     </Layout>
   )
+
 }

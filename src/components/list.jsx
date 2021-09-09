@@ -15,7 +15,7 @@ export default function MyList(props){
     if(typeof props.secondary === 'object'){
       Object.keys(props.secondary).forEach((key) => {
         secondary += props.secondary[key].text + ' : ' + JSON.stringify(item[key]);
-        if(props[key]?.suffix){
+        if(props.secondary[key]?.suffix){
           secondary += props.secondary[key].suffix + " ";
         }else{
           secondary += " ";
