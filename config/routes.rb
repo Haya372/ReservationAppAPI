@@ -31,6 +31,7 @@ Rails.application.routes.draw do
 
     namespace :admin do
       resources :organization
+      get 'organization/:id/user', to: 'organization#user'
     end
   end
 
