@@ -48,9 +48,9 @@ export default function CreateLayout(props){
       const res = await axios.post(props.apiPath, item);
       const id = res.data.id;
       if(props.resourceName == 'organization'){
-        history.push(`/organization/${id}/space`)
+        history.push(`/organization/${id}`)
       }else if(props.resourceName == 'space'){
-        history.push(`/organization/${props.organizationId}/space/${id}/reservation`)
+        history.push(`/organization/${props.organizationId}/space/${id}`)
       }
     } catch(err) {
       alert(err);

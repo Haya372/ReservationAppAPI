@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, Redirect, Switch } from "react-router-d
 import Login from './pages/login.jsx';
 import Home from "./pages/home.jsx";
 import Organization from "./pages/organization.jsx";
-import SpaceReservation from "./pages/spaceReservation.jsx";
+import Space from "./pages/space.jsx";
 import OrganizationCreate from "./pages/organizationCreate.jsx";
 import SpaceCreate from "./pages/spaceCreate.jsx";
 import './styles.css';
@@ -40,7 +40,7 @@ const Index = () => {
               <SpaceCreate />
             </CustomRoute>
             <CustomRoute path="/organization/:organization_id/space/:space_id" exact>
-              <SpaceReservation />
+              <Space />
             </CustomRoute>
           </Switch>
         </Router>

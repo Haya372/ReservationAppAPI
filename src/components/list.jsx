@@ -24,8 +24,7 @@ export default function MyList(props){
     }
 
     const onClick = () => {
-      const suffix = props.pathSuffix || "";
-      const path = `${location.pathname}${props.path}/${item[props.id]}/${suffix}`;
+      const path = `${location.pathname}${props.path}/${item[props.id]}`;
       history.push(path);
     }
 

@@ -40,7 +40,7 @@ export default function SpaceList(props){
 
   return (
     <div>
-      <div className="flex items-center my-2">
+      <div className="flex items-center my-4">
         <Search
           className="flex-grow"
           onChange={onChangeSearch}
@@ -56,7 +56,7 @@ export default function SpaceList(props){
         items={spaces}
         primary="name"
         secondary={secondary}
-        path="space"
+        path="/space"
         id="id"
       />
     </div>
