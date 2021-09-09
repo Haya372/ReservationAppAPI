@@ -9,7 +9,6 @@ import Search from "../components/search.jsx";
 import Divider from "@material-ui/core/Divider";
 import DetailsLayout from "../components/detailsLayout.jsx";
 import TextForm from "../components/textform.jsx";
-import { TextField } from "@material-ui/core";
 
 export default function OrganizationSpace(props){
   const { organization_id } = useParams();
