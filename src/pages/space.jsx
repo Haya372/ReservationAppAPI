@@ -4,31 +4,10 @@ import Layout from "../components/layout.jsx";
 import Divider from "@material-ui/core/Divider";
 import DetailsLayout from "../components/detailsLayout.jsx";
 import ReservationList from "../components/reservationList.jsx";
+import conf from '../configs/space.js';
 
 export default function Space(props){
   const { organization_id, space_id } = useParams();
-
-  const conf = {
-    name: {
-      size: 12,
-      required: true,
-      component: 'text',
-      props: {
-        fullWidth: true,
-        notNull: true,
-        label: "name"
-      }
-    },
-    capacity: {
-      size: 12,
-      required: true,
-      component: 'number',
-      props: {
-        min: '0',
-        label: 'capacity',
-      }
-    }
-  }
 
   return (
     <Layout header="Space">
