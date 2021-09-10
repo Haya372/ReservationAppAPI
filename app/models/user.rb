@@ -15,9 +15,18 @@ class User < ApplicationRecord
     keyword = ActiveRecord::Base.sanitize_sql_like(search) + '%'
     columns = 'user_organizations.role as role,'
     Organization.show_attributes.each {|attr|
-      columns += "organizations." +attr + " as organization_" + attr + ","
+      columns += "organizations." + attr + " as organization_" + attr + ","
     }
     self.organizations.select(columns.chop).where('organizations.name like ?', keyword)
+  end
+
+  def self.with_role(user_id, organization_id)
+    sql = sanitize_sql(['organizations.id = ?', organization_id])
+    columns = 'user_organizations.role as role,'
+    User.show_attributes.each {|attr|
+      columns += "users." + attr + " as " + attr + ","
+    }
+    User.joins(:organizations).select(columns.chop).find_by(sql)
   end
 
   def belong_organization(organization_id)
