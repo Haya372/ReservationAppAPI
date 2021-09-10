@@ -8,6 +8,8 @@ import axios from '../utils/axios.js';
 import equal from '../utils/equal.js';
 import resources from '../utils/resources.js';
 import { useHistory } from 'react-router';
+import SuccessAlert from './successAlert.jsx';
+import ErrorAlert from './errorAlert.jsx';
 
 /*
  props: {
@@ -48,6 +50,9 @@ export default function DetailsLayout(props){
   const [lock, setLock] = useState(true);
   const [item, setItem] = useState({});
   const [savedItem, setSavedItem] = useState({});
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState(false);
+  const [timer, setTimer] = useState(null);
   const history = useHistory();
 
   useEffect(async() => {
@@ -68,6 +73,14 @@ export default function DetailsLayout(props){
     setLock(true);
   }
 
+  useEffect(() => {
+    return () => {
+      if(timer){
+        clearTimeout(timer);
+      }
+    }
+  }, [timer]);
+
 
   const onClickUpdate = async () => {
     try {
@@ -78,8 +91,17 @@ export default function DetailsLayout(props){
       setSavedItem(sItem);
       setItem(res.data);
       setLock(true);
+      setSuccess(true);
+      const t = setTimeout(() => {
+        setSuccess(false);
+      }, 3000);
+      setTimer(t);
     } catch(err) {
-      alert(err);
+      setError(true);
+      const t = setTimeout(() => {
+        setError(false);
+      }, 3000);
+      setTimer(t);
     }
   }
 
@@ -202,6 +224,8 @@ export default function DetailsLayout(props){
         </Grid>
         }
       </Grid>
+      {success ? <SuccessAlert message="更新しました" /> : null}
+      {error ? <ErrorAlert message="更新に失敗しました" /> : null}
     </div>
   )
 }
