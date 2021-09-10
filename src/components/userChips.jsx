@@ -6,8 +6,8 @@ export default function UserChips(props){
 
   if(Array.isArray(props.value)){
     props.value.forEach((val, idx) => {
-      items.push(<div className="mx-2">
-        <UserPicker value={val} key={idx}/>
+      items.push(<div className="mx-2" key={idx}>
+        <UserPicker value={val}/>
       </div>)
     });
   }else{
