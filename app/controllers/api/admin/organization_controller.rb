@@ -18,7 +18,8 @@ class Api::Admin::OrganizationController < ApplicationController
         raise BadRequestError
       end
     end
-    render json: @organization
+    # render json: @organization
+    render status: :unauthorized
   end
 
   def update
