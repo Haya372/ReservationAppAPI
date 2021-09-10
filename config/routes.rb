@@ -30,8 +30,9 @@ Rails.application.routes.draw do
     resources :reservation, only: [:show, :update, :destroy]
 
     namespace :admin do
-      resources :organization
-      get 'organization/:id/user', to: 'organization#user'
+      resources :organization do
+        resources :user
+      end
     end
   end
 
