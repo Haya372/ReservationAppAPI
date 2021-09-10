@@ -13,7 +13,7 @@ export default function Space(props){
   return (
     <Layout header="Space">
       <DetailsLayout
-        apiPath={`/api/organization/${organization_id}/space/${space_id}`}
+        apiPath={`/api/admin/organization/${organization_id}/space/${space_id}`}
         disabled={false}
         conf={conf}
         delete={deletable}
