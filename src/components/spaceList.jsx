@@ -17,7 +17,7 @@ export default function SpaceList(props){
 
   useEffect(async () => {
     try{
-      const res = await axios.get(`/api/organization/${props.organizationId}/space`, { 
+      const res = await axios.get(`/api/admin/organization/${props.organizationId}/space`, { 
         params: {
           search: search
         }

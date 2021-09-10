@@ -19,7 +19,7 @@ export default function OrganizationCreate(props){
   return (
     <Layout header="Organization">
       <CreateLayout
-        apiPath={`/api/organization/`}
+        apiPath={`/api/admin/organization/`}
         resourceName="organization"
         conf={conf}
       />

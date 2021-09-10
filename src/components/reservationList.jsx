@@ -9,7 +9,7 @@ export default function ReservationList(props){
 
   useEffect(async () => {
     try{
-      const res = await axios.get(`/api/organization/${props.organiztionId}/space/${props.spaceId}/reservation`, { 
+      const res = await axios.get(`/api/admin/organization/${props.organiztionId}/space/${props.spaceId}/reservation`, { 
         params: {
           search: search
         }

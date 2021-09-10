@@ -22,7 +22,7 @@ export default function Organization(props){
   return (
     <Layout header="Organization">
       <DetailsLayout
-        apiPath={`/api/organization/${organization_id}`}
+        apiPath={`/api/admin/organization/${organization_id}`}
         disabled={false}
         conf={conf}
         delete={deletable}

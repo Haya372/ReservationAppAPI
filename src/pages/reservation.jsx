@@ -11,7 +11,7 @@ export default function Reservation(props){
   return (
     <Layout header="Reservation">
       <DetailsLayout
-        apiPath={`/api/organization/${organization_id}/space/${space_id}/reservation/${reservation_id}`}
+        apiPath={`/api/admin/organization/${organization_id}/space/${space_id}/reservation/${reservation_id}`}
         disabled={true}
         conf={conf}
         delete={deletable}

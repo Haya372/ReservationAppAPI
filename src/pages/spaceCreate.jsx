@@ -10,7 +10,7 @@ export default function SpaceCreate(props){
   return (
     <Layout header="Space">
       <CreateLayout
-        apiPath={`/api/organization/${organization_id}/space`}
+        apiPath={`/api/admin/organization/${organization_id}/space`}
         resourceName="space"
         conf={conf}
         organizationId={organization_id}
