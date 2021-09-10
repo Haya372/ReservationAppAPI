@@ -8,6 +8,7 @@ import Space from "./pages/space.jsx";
 import OrganizationCreate from "./pages/organizationCreate.jsx";
 import SpaceCreate from "./pages/spaceCreate.jsx";
 import User from "./pages/user.jsx";
+import Reservation from "./pages/reservation.jsx";
 import './styles.css';
 import theme from "./utils/theme.js";
 import { ThemeProvider } from "@material-ui/styles";
@@ -42,6 +43,9 @@ const Index = () => {
             </CustomRoute>
             <CustomRoute path="/organization/:organization_id/space/:space_id" exact>
               <Space />
+            </CustomRoute>
+            <CustomRoute path="/organization/:organization_id/space/:space_id/reservation/:reservation_id" exact>
+              <Reservation />
             </CustomRoute>
             <CustomRoute path="/organization/:organization_id/user/:user_id" exact>
               <User />
