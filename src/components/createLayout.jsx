@@ -4,6 +4,7 @@ import Button from '@material-ui/core/Button';
 import axios from '../utils/axios.js';
 import resources from '../utils/resources.js';
 import { useHistory } from 'react-router';
+import ErrorAlert from './errorAlert.jsx';
 
 /*
  props: {
@@ -41,6 +42,8 @@ const getItem = (key, conf, item) => {
 
 export default function CreateLayout(props){
   const [item, setItem] = useState({});
+  const [error, setError] = useState(false);
+  const [timer, setTimer] = useState(null);
   const history = useHistory();
 
   const onClickCreate = async () => {
@@ -53,9 +56,21 @@ export default function CreateLayout(props){
         history.push(`/organization/${props.organizationId}/space/${id}`)
       }
     } catch(err) {
-      alert(err);
+      setError(true);
+      const t = setTimeout(() => {
+        setError(false);
+      }, 3000);
+      setTimer(t);
     }
   }
+
+  useEffect(() => {
+    return () => {
+      if(timer){
+        clearTimeout(timer);
+      }
+    }
+  }, [timer]);
 
   const gridItems = [];
 
@@ -126,6 +141,7 @@ export default function CreateLayout(props){
           </div>
         </Grid>
       </Grid>
+      {error ? <ErrorAlert message="作成に失敗しました" /> : null}
     </div>
   )
 }

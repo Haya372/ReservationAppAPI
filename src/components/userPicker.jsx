@@ -7,7 +7,7 @@ export default function UserPicker(props){
   const [flg, setFlg] = useState(true);
 
   useEffect(async () => {
-    let isMounted = true
+    let isMounted = true;
     if(!props.value){
       if(isMounted) {
         setTimeout(() => { setFlg(!flg) }, 100);
