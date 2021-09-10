@@ -30,6 +30,7 @@ Rails.application.routes.draw do
     resources :reservation, only: [:show, :update, :destroy]
 
     namespace :admin do
+      get 'organization/:id/role', to: 'organization#role'
       resources :organization do
         resources :space do
           resources :reservation
