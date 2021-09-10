@@ -7,6 +7,7 @@ import Button from '@material-ui/core/Button';
 import axios from '../utils/axios.js';
 import equal from '../utils/equal.js';
 import resources from '../utils/resources.js';
+import { useHistory } from 'react-router';
 
 /*
  props: {
@@ -21,7 +22,9 @@ import resources from '../utils/resources.js';
     },
     ...
   },
-  disabled: Boolean
+  disabled: Boolean,
+  root: String,
+  delete: Boolean
 }
 */
 
@@ -45,12 +48,16 @@ export default function DetailsLayout(props){
   const [lock, setLock] = useState(true);
   const [item, setItem] = useState({});
   const [savedItem, setSavedItem] = useState({});
+  const history = useHistory();
 
   useEffect(async() => {
     try {
       const res = await axios.get(props.apiPath);
+      const sItem = {
+        ...res.data
+      };
+      setSavedItem(sItem);
       setItem(res.data);
-      setSavedItem(res.data);
     } catch(err){
       alert(err);
     }
@@ -65,8 +72,12 @@ export default function DetailsLayout(props){
   const onClickUpdate = async () => {
     try {
       const res = await axios.patch(props.apiPath, item);
-      setSavedItem(res.data);
+      const sItem = {
+        ...res.data
+      };
+      setSavedItem(sItem);
       setItem(res.data);
+      setLock(true);
     } catch(err) {
       alert(err);
     }
@@ -87,10 +98,10 @@ export default function DetailsLayout(props){
     }
 
     const inputProps = {
-      ...conf.props,
       value,
       onChange,
-      disabled: lock
+      disabled: lock,
+      ...conf.props,
     }
     if(typeof conf.component == 'function'){
       gridItems.push(<Grid item xs={conf.size || 12} key={key}>
@@ -124,6 +135,15 @@ export default function DetailsLayout(props){
     return disabled;
   }
 
+  const onClickDelete = async () => {
+    try {
+      const res = await axios.delete(props.apiPath);
+      history.push(props.root)
+    } catch(err) {
+      alert(err);
+    }
+  }
+
   return (
     <div>
       <Grid container spacing={3}>
@@ -147,6 +167,18 @@ export default function DetailsLayout(props){
         :
         <Grid item xs={12}>
           <div className="flex justify-around">
+            { props.delete ?
+              <div className="text-red-500">
+                <Button
+                  variant="outlined"
+                  onClick={onClickDelete}
+                  color='inherit'
+                >
+                  Delete
+                </Button>
+              </div>
+            : null
+            }
             <div className="text-blue-400">
               <Button
                 variant="outlined"

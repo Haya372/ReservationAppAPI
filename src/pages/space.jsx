@@ -8,6 +8,7 @@ import conf from '../configs/space.js';
 
 export default function Space(props){
   const { organization_id, space_id } = useParams();
+  const [deletable, setDeletabel] = useState(true);
 
   return (
     <Layout header="Space">
@@ -15,6 +16,8 @@ export default function Space(props){
         apiPath={`/api/organization/${organization_id}/space/${space_id}`}
         disabled={false}
         conf={conf}
+        delete={deletable}
+        root={`/organization/${organization_id}`}
       />
       <div className="my-4">
         <Divider />

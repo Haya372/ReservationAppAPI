@@ -3,6 +3,12 @@ const equal = (obj1, obj2) => {
     return obj1 == obj2;
   }
   let ok = true;
+  if(Array.isArray(obj1)){
+    obj1.sort()
+  }
+  if(Array.isArray(obj2)){
+    obj2.sort()
+  }
   Object.keys(obj1).forEach((key) => {
     if(!ok){
       return;
@@ -13,8 +19,8 @@ const equal = (obj1, obj2) => {
     }
     ok = ok && equal(obj1[key], obj2[key]);
   })
-  if(Object.keys(obj1).length == 0){
-    if(Object.keys(obj2) != 0) ok = false;
+  if(Object.keys(obj1).length != Object.keys(obj2).length){
+    ok = false;
   }
   return ok;
 }
