@@ -1,7 +1,7 @@
 class Api::Admin::OrganizationController < ApplicationController
   include JwtAuth
   before_action :jwt_authenticate
-  before_action :check_perm, except: [:index, :create]
+  before_action :check_perm, except: [:index, :create, :role]
 
   def index
     organizations = @current_user.organization_with_role(params[:search]);
@@ -18,7 +18,8 @@ class Api::Admin::OrganizationController < ApplicationController
         raise BadRequestError
       end
     end
-    render json: @organization
+    # render json: @organization
+    render status: :unauthorized
   end
 
   def update
@@ -45,6 +46,11 @@ class Api::Admin::OrganizationController < ApplicationController
   def destroy
     Organization.find(params[:id]).destroy
     render json: "success"
+  end
+
+  def role
+    role = UserOrganization.where(user_id: @current_user.id).select(:role).find_by(organization_id: params[:id])
+    render json: role.role
   end
 
   private

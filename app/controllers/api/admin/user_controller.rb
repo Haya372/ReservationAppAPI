@@ -15,7 +15,7 @@ class Api::Admin::UserController < ApplicationController
     render json: User.with_role(params[:id], params[:organization_id])
   end
 
-  def delete
+  def destroy
     user_organization = UserOrganization.where(user_id: params[:id]).find_by(organization_id: params[:organization_id])
     user_organization.destroy
     render status: :no_content
