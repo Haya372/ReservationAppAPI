@@ -13,6 +13,7 @@ import conf from '../configs/organization.js';
 export default function Organization(props){
   const { organization_id } = useParams();
   const [tab, setTab] = useState(0);
+  const [deletable, setDeletabel] = useState(true);
 
   const onTabChange = (e, newValue) => {
     setTab(newValue);
@@ -24,6 +25,8 @@ export default function Organization(props){
         apiPath={`/api/organization/${organization_id}`}
         disabled={false}
         conf={conf}
+        delete={deletable}
+        root='/'
       />
       <div className="my-4">
         <Divider />
