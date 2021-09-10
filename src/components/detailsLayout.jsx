@@ -53,8 +53,11 @@ export default function DetailsLayout(props){
   useEffect(async() => {
     try {
       const res = await axios.get(props.apiPath);
+      const sItem = {
+        ...res.data
+      };
+      setSavedItem(sItem);
       setItem(res.data);
-      setSavedItem(res.data);
     } catch(err){
       alert(err);
     }
@@ -69,8 +72,12 @@ export default function DetailsLayout(props){
   const onClickUpdate = async () => {
     try {
       const res = await axios.patch(props.apiPath, item);
-      setSavedItem(res.data);
+      const sItem = {
+        ...res.data
+      };
+      setSavedItem(sItem);
       setItem(res.data);
+      setLock(true);
     } catch(err) {
       alert(err);
     }
