@@ -162,7 +162,11 @@ export default function DetailsLayout(props){
       const res = await axios.delete(props.apiPath);
       history.push(props.root)
     } catch(err) {
-      alert(err);
+      setError(true);
+      const t = setTimeout(() => {
+        setError(false);
+      }, 3000);
+      setTimer(t);
     }
   }
 
