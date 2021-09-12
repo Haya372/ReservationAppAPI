@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_06_145805) do
+ActiveRecord::Schema.define(version: 2021_09_12_134125) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,6 +20,10 @@ ActiveRecord::Schema.define(version: 2021_09_06_145805) do
     t.string "password_digest", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "image_url"
+    t.string "description"
+    t.string "rule"
+    t.boolean "public", default: false
   end
 
   create_table "reservation_counts", force: :cascade do |t|
@@ -41,6 +45,8 @@ ActiveRecord::Schema.define(version: 2021_09_06_145805) do
     t.datetime "end_time", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "memo"
+    t.boolean "admin_flg", default: false
     t.index ["space_id"], name: "index_reservations_on_space_id"
     t.index ["user_id"], name: "index_reservations_on_user_id"
   end
@@ -51,6 +57,9 @@ ActiveRecord::Schema.define(version: 2021_09_06_145805) do
     t.integer "capacity", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "image_url"
+    t.string "description"
+    t.string "rule"
     t.index ["organization_id"], name: "index_spaces_on_organization_id"
   end
 
@@ -69,6 +78,7 @@ ActiveRecord::Schema.define(version: 2021_09_06_145805) do
     t.string "password_digest", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "image_url"
   end
 
   add_foreign_key "reservation_counts", "spaces"
