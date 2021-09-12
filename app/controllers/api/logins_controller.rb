@@ -13,4 +13,8 @@ class Api::LoginsController < ApplicationController
   def show
     render json: "ok"
   end
+
+  def user
+    render json: User.show_params.find(@current_user.id)
+  end
 end

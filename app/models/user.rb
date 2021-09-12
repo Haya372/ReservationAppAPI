@@ -11,6 +11,15 @@ class User < ApplicationRecord
   has_many :organizations, through: :user_organizations
   has_many :reservations, dependent: :delete_all
 
+  scope :show_params, -> {
+    columns = ''
+    User.show_attributes.each {|attr|
+      columns += attr + ','
+    }
+    p columns
+    select(columns.chop)
+  }
+
   def organization_with_role(search = "")
     keyword = ActiveRecord::Base.sanitize_sql_like(search) + '%'
     columns = 'user_organizations.role as role,'
@@ -52,7 +61,7 @@ class User < ApplicationRecord
   end
 
   def self.show_attributes
-    ["id", "name", "kana", "email"]
+    ["id", "name", "kana", "email", "image_url"]
   end
 
 end
