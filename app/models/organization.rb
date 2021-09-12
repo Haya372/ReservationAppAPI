@@ -10,11 +10,15 @@ class Organization < ApplicationRecord
   has_many :spaces, dependent: :delete_all
 
   scope :show_params, -> {
-    select(:id, :name)
+    columns = ''
+    Organization.show_attributes.each {|attr|
+      columns += attr + ','
+    }
+    select(columns.chop)
   }
 
   def self.show_attributes
-    ["id", "name"]
+    ["id", "name", "description", "rule", "public"]
   end
 
   def self.search_user(organization_id, search)

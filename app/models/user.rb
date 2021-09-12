@@ -16,7 +16,6 @@ class User < ApplicationRecord
     User.show_attributes.each {|attr|
       columns += attr + ','
     }
-    p columns
     select(columns.chop)
   }
 
