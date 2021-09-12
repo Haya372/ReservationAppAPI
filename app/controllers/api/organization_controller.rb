@@ -13,7 +13,7 @@ class Api::OrganizationController < ApplicationController
         raise BadRequestError
       end
     end
-    render json: @organization
+    render json: Organization.show_params.find(@organization.id)
   end
 
   def update
@@ -24,7 +24,7 @@ class Api::OrganizationController < ApplicationController
       logger.debug e
       raise BadRequestError
     end
-    render json: organization
+    render json: Organization.show_params.find(organization.id)
   end
 
   def show
