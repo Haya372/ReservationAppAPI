@@ -1,7 +1,7 @@
 class Api::Organization::ReservationCntController < ApplicationController
   include JwtAuth
   before_action :jwt_authenticate
-  before_action :check_perm
+  before_action :check_perm, except: [:index]
 
   def index
     raise BadRequestError if params[:year].blank? || params[:month].blank?
