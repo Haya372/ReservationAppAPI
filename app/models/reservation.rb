@@ -29,6 +29,7 @@ class Reservation < ApplicationRecord
   }
 
   def validate_start_time
+    p self.start_time, DateTime.now
     errors.add(:start_time, "は１ヶ月以内に設定してください", strict: true) if self.start_time > 1.month.from_now
     errors.add(:start_time, "は過去に設定できません", strict: true) if self.start_time < DateTime.now
   end
