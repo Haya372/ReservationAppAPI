@@ -1,9 +1,11 @@
-setup:
-  addons:
-    - plan: heroku-postgresql
-      as: DATABASE
 build:
   docker:
-    web: Dockerfile
+    web: Dockerfile.prd
   config:
     RAILS_ENV: production
+    DATABASE_URL: $DATABASE_URL
+    DATABASE_PORT: $DATABASE_PORT
+    DATABASE_PASSWORD: $DATABASE_PASSWORD
+    DATABASE_USER: $DATABASE_USER
+    JWT_SECRET_KEY: $JWT_SECRET_KEY
+    CLIENT_HOST: $CLIENT_HOST
