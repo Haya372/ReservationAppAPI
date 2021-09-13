@@ -14,7 +14,7 @@ class User < ApplicationRecord
   scope :show_params, -> {
     columns = ''
     User.show_attributes.each {|attr|
-      columns += attr + ','
+      columns += "users.#{attr} as #{attr},"
     }
     select(columns.chop)
   }

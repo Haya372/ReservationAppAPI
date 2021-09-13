@@ -12,7 +12,7 @@ class Organization < ApplicationRecord
   scope :show_params, -> {
     columns = ''
     Organization.show_attributes.each {|attr|
-      columns += attr + ','
+      columns += "organizations.#{attr} as #{attr},"
     }
     select(columns.chop)
   }
