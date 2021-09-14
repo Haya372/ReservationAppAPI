@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router";
 import Layout from "../components/layout.jsx";
-import Divider from "@material-ui/core/Divider";
 import DetailsLayout from "../components/detailsLayout.jsx";
 import ReservationList from "../components/reservationList.jsx";
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import TabItems from "../components/tabItems.jsx";
 import conf from '../configs/space.js';
 import axios from '../utils/axios.js';
 
@@ -11,6 +13,11 @@ export default function Space(props){
   const { organization_id, space_id } = useParams();
   const [deletable, setDeletabel] = useState(false);
   const [updatable, setUpdatable] = useState(false);
+  const [tab, setTab] = useState(0);
+
+  const onTabChange = (e, newValue) => {
+    setTab(newValue);
+  }
 
   useEffect(async () => {
     try {
@@ -32,17 +39,28 @@ export default function Space(props){
 
   return (
     <Layout header="Space">
-      <DetailsLayout
-        apiPath={`/api/admin/organization/${organization_id}/space/${space_id}`}
-        disabled={!updatable}
-        conf={conf}
-        delete={deletable}
-        root={`/organization/${organization_id}`}
+      <Tabs
+        value={tab}
+        indicatorColor="primary"
+        textColor="primary"
+        onChange={onTabChange}
+      >
+        <Tab label="Details" />
+        <Tab label="Reservations"/>
+      </Tabs>
+      <TabItems
+        value={tab}
+        items={[
+          <DetailsLayout
+            apiPath={`/api/admin/organization/${organization_id}/space/${space_id}`}
+            disabled={!updatable}
+            conf={conf}
+            delete={deletable}
+            root={`/organization/${organization_id}`}
+          />,
+          <ReservationList organizationId={organization_id} spaceId={space_id} />
+        ]}
       />
-      <div className="my-4">
-        <Divider />
-      </div>
-      <ReservationList organizationId={organization_id} spaceId={space_id} />
     </Layout>
   )
 }
