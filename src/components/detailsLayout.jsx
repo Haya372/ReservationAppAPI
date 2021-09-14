@@ -41,6 +41,8 @@ const getItem = (key, conf, item) => {
       return 0;
     case 'array':
       return [];
+    case 'boolean':
+      return false;
     default:
       return '';
   }

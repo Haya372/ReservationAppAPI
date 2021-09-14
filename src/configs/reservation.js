@@ -27,11 +27,19 @@ export default {
     }
   },
   users: {
-    size: 6,
+    size: 4,
     component: 'user',
     props: {
       label: '参加者',
     }
+  },
+  admin_flg: {
+    size: 2,
+    component: 'flg',
+    props: {
+      label: "管理者予約",
+    },
+    type: 'boolean'
   },
   memo: {
     size: 12,

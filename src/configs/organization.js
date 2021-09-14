@@ -1,10 +1,6 @@
 export default {
-  public: {
-    size: 2,
-    component: 'text',
-  },
   name: {
-    size: 12,
+    size: 10,
     required: true,
     component: 'text',
     props: {
@@ -12,6 +8,14 @@ export default {
       notNull: true,
       label: "団体名"
     },
+  },
+  public: {
+    size: 2,
+    component: 'flg',
+    props: {
+      label: "公開",
+    },
+    type: 'boolean'
   },
   description: {
     size: 12,
