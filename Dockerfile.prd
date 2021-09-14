@@ -19,5 +19,8 @@ RUN chmod +x /usr/bin/entrypoint.prd.sh
 ENTRYPOINT ["entrypoint.prd.sh"]
 EXPOSE $PORT
 
+RUN npm install
+RUN npm run build
+
 # Start the main process.
 CMD ["rails", "s", "-b", "0.0.0.0"]
