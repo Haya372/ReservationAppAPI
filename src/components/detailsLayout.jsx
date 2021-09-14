@@ -178,7 +178,7 @@ export default function DetailsLayout(props){
   return (
     <div>
       { loading ?
-        <CircularProgress />
+        <div className="text-center"><CircularProgress /></div>
       :
         <Grid container spacing={3}>
           <Grid item xs={10} />
