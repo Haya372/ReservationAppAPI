@@ -31,7 +31,7 @@ import ErrorAlert from './errorAlert.jsx';
 */
 
 const getItem = (key, conf, item) => {
-  if(item[key] != undefined){
+  if(item[key] != undefined && item[key] != null){
     return item[key];
   }
   switch(conf.type){

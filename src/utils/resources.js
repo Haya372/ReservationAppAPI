@@ -13,4 +13,5 @@ export default {
   'datetime': (props) => <Datetime {...props} />,
   'user': (props) => <UserChips {...props} />,
   'password': (props) => <Password {...props} />,
+  'textmulti': (props) => <TextField multiline maxRows="10" minRows="10" {...props} />
 }

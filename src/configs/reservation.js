@@ -33,6 +33,15 @@ export default {
       label: '参加者',
     }
   },
+  memo: {
+    size: 12,
+    component: 'textmulti',
+    props: {
+      fullWidth: true,
+      label: "メモ"
+    },
+    type: 'string',
+  },
   start_time: {
     size: 6,
     required: true,
