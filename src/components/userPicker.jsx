@@ -18,6 +18,9 @@ export default function UserPicker(props){
       const res = await axios.get(`/api/user/${props.value}`);
       setUser(res.data);
     } catch(err) {
+      if(err.response?.status == 404){
+        setUser({ name: "undifined" });
+      }
       alert(err);
     }
     return () => { isMounted = false };
@@ -31,7 +34,7 @@ export default function UserPicker(props){
 
   return (
     <Chip
-      label={user.name}
+      label={user?.name || "undifined"}
       style={style}
     />
   )
