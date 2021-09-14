@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router";
 import Layout from "../components/layout.jsx";
-import Divider from "@material-ui/core/Divider";
 import DetailsLayout from "../components/detailsLayout.jsx";
 import SpaceList from "../components/spaceList.jsx";
 import Tabs from '@material-ui/core/Tabs';
@@ -45,28 +44,26 @@ export default function Organization(props){
 
   return (
     <Layout header="Organization">
-      <DetailsLayout
-        apiPath={`/api/admin/organization/${organization_id}`}
-        disabled={!updatable}
-        conf={conf}
-        delete={deletable}
-        root='/'
-      />
-      <div className="my-4">
-        <Divider />
-      </div>
       <Tabs
         value={tab}
         indicatorColor="primary"
         textColor="primary"
         onChange={onTabChange}
       >
+        <Tab label="Details" />
         <Tab label="Spaces"/>
         <Tab label="Users"/>
       </Tabs>
       <TabItems
         value={tab}
         items={[
+          <DetailsLayout
+            apiPath={`/api/admin/organization/${organization_id}`}
+            disabled={!updatable}
+            conf={conf}
+            delete={deletable}
+            root='/'
+          />,
           <SpaceList organizationId={organization_id} create={creatable}/>,
           <UserList organizationId={organization_id} />,
         ]}

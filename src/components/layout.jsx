@@ -1,6 +1,7 @@
 import React from 'react';
 import Header from './header.jsx';
 import { useHistory } from 'react-router';
+import Breadcrumb from './breadcrumb.jsx'
 
 
 export default function Layout(props){
@@ -9,7 +10,8 @@ export default function Layout(props){
   return (
     <div className="min-h-screen flex flex-col justify-center">
       <Header header={props.header} />
-      <div className="m-4 flex-grow">
+      <Breadcrumb />
+      <div className="mx-6 flex-grow">
         {props.children}
       </div>
     </div>

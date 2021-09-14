@@ -10,6 +10,7 @@ import resources from '../utils/resources.js';
 import { useHistory } from 'react-router';
 import SuccessAlert from './successAlert.jsx';
 import ErrorAlert from './errorAlert.jsx';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 /*
  props: {
@@ -55,6 +56,7 @@ export default function DetailsLayout(props){
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
   const [timer, setTimer] = useState(null);
+  const [loading, setLoading] = useState(true);
   const history = useHistory();
 
   useEffect(async() => {
@@ -65,6 +67,7 @@ export default function DetailsLayout(props){
       };
       setSavedItem(sItem);
       setItem(res.data);
+      setLoading(false);
     } catch(err){
       alert(err);
     }
@@ -174,62 +177,66 @@ export default function DetailsLayout(props){
 
   return (
     <div>
-      <Grid container spacing={3}>
-        <Grid item xs={10} />
-        <Grid item xs={2}>
-          <Checkbox
-            checked={lock}
-            icon={<LockOpenIcon />}
-            checkedIcon={<LockIcon />}
-            onChange={(e) => {
-              if(!props.disabled){
-                if(e.target.checked) onClickCancel();
-                setLock(e.target.checked)
+      { loading ?
+        <div className="text-center"><CircularProgress /></div>
+      :
+        <Grid container spacing={3}>
+          <Grid item xs={10} />
+          <Grid item xs={2}>
+            <Checkbox
+              checked={lock}
+              icon={<LockOpenIcon />}
+              checkedIcon={<LockIcon />}
+              onChange={(e) => {
+                if(!props.disabled){
+                  if(e.target.checked) onClickCancel();
+                  setLock(e.target.checked)
+                }
+              }}
+            />
+          </Grid>
+          { gridItems }
+          { lock || props.disabled == true ?
+            null
+          :
+          <Grid item xs={12}>
+            <div className="flex justify-around">
+              { props.delete ?
+                <div className="text-red-500">
+                  <Button
+                    variant="outlined"
+                    onClick={onClickDelete}
+                    color='inherit'
+                  >
+                    Delete
+                  </Button>
+                </div>
+              : null
               }
-            }}
-          />
-        </Grid>
-        { gridItems }
-        { lock || props.disabled == true ?
-          null
-        :
-        <Grid item xs={12}>
-          <div className="flex justify-around">
-            { props.delete ?
-              <div className="text-red-500">
+              <div className="text-blue-400">
                 <Button
                   variant="outlined"
-                  onClick={onClickDelete}
+                  onClick={onClickUpdate}
                   color='inherit'
+                  disabled={disabledUpdateButton()}
                 >
-                  Delete
+                  Update
                 </Button>
               </div>
-            : null
-            }
-            <div className="text-blue-400">
-              <Button
-                variant="outlined"
-                onClick={onClickUpdate}
-                color='inherit'
-                disabled={disabledUpdateButton()}
-              >
-                Update
-              </Button>
+              <div className="text-pink-400">
+                <Button
+                  variant="outlined"
+                  onClick={onClickCancel}
+                  color='inherit'
+                >
+                  Cancel
+                </Button>
+              </div>
             </div>
-            <div className="text-pink-400">
-              <Button
-                variant="outlined"
-                onClick={onClickCancel}
-                color='inherit'
-              >
-                Cancel
-              </Button>
-            </div>
-          </div>
+          </Grid>
+          }
         </Grid>
-        }
-      </Grid>
+      }
       {success ? <SuccessAlert message="更新しました" /> : null}
       {error ? <ErrorAlert message="更新に失敗しました" /> : null}
     </div>
