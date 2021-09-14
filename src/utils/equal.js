@@ -2,6 +2,9 @@ const equal = (obj1, obj2) => {
   if((typeof obj1 != 'object') || (typeof obj2 != 'object')){
     return obj1 == obj2;
   }
+  if(obj1 == obj2) {
+    return true;
+  }
   let ok = true;
   if(Array.isArray(obj1)){
     obj1.sort()

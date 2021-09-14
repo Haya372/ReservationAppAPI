@@ -8,6 +8,7 @@ import Divider from '@material-ui/core/Divider';
 import Button from '@material-ui/core/Button';
 import { useHistory } from 'react-router';
 import Alert from '@material-ui/lab/Alert';
+import Password from "../components/password.jsx";
 
 export default function Login(props){
   const [email, setEmail] = useState("");
@@ -56,9 +57,8 @@ export default function Login(props){
                 />
               </div>
               <div className="my-2">
-                <TextForm
+                <Password
                   label="password"
-                  type="password"
                   value={password}
                   onChange={onChangePassword}
                   fullWidth

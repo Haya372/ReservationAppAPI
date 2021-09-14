@@ -33,13 +33,9 @@ class Api::Admin::OrganizationController < ApplicationController
   end
 
   def show
-    organization = Organization.find(params[:id])
+    organization = Organization.show_params.find(params[:id])
     raise ActiveRecord::RecordNotFound if organization.blank?
-    render json: {
-      "id" => organization.id,
-      "name" => organization.name,
-      "users" => organization.users.select(:id, :name, :kana)
-    }
+    render json: organization
   end
 
   def destroy
@@ -58,6 +54,6 @@ class Api::Admin::OrganizationController < ApplicationController
   end
 
   def organization_params
-    params.permit(:name, :password)
+    params.permit(:name, :password, :description, :rule, :public)
   end
 end
