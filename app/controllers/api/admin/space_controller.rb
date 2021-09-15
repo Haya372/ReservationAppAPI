@@ -20,7 +20,10 @@ class Api::Admin::SpaceController < ApplicationController
   end
 
   def index
-    render json: Space.where(permitted_organization_id)
+    render json: {
+      "items" => Space.where(permitted_organization_id).page(params[:page]),
+      "total" => Space.where(permitted_organization_id).count
+    }
   end
 
   def update

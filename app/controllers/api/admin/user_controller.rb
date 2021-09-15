@@ -5,7 +5,10 @@ class Api::Admin::UserController < ApplicationController
 
   def index
     organization = Organization.find(params[:organization_id])
-    render json: organization.user_with_role(params[:search])
+    render json: {
+      "items": organization.user_with_role(params[:search]).page(params[:page]),
+      "total": organization.users.count
+    }
   end
 
   def update

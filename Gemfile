@@ -51,3 +51,6 @@ gem 'rack-cors'
 
 # get environment variables
 gem 'dotenv-rails'
+
+# for pagenation
+gem 'kaminari'
