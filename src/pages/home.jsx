@@ -6,24 +6,29 @@ import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import Search from "../components/search.jsx";
 import { useHistory } from "react-router";
+import Pagination from '@material-ui/lab/Pagination';
 
 export default function Home(props){
   const [organizations, setOrganizations] = useState([]);
   const [search, setSearch] = useState("");
   const history = useHistory();
+  const [page, setPage] = useState(1);
+  const [total, setTotal] = useState(1);
 
   useEffect(async () => {
     try{
       const res = await axios.get('/api/admin/organization', { 
         params: {
-          search: search
+          search: search,
+          page: page
         }
       });
-      setOrganizations(res.data);
+      setOrganizations(res.data.items);
+      setTotal(Math.ceil(res.data.total / 25));
     } catch (err) {
       alert(err);
     }
-  }, [search]);
+  }, [search, page]);
 
   const secondary = {
     role: {
@@ -37,6 +42,13 @@ export default function Home(props){
 
   const onClickCreate = () => {
     history.push('/organization/new')
+  }
+
+  const onChangePage = (e, newPage) => {
+    if(page == newPage){
+      return;
+    }
+    setPage(newPage);
   }
 
   return (
@@ -61,6 +73,14 @@ export default function Home(props){
         path="organization"
         id="organization_id"
       />
+      <div className="my-4 text-center">
+        <Pagination
+          count={total}
+          onChange={onChangePage}
+          defaultPage={1}
+          color="primary"
+        />
+      </div>
     </Layout>
   )
 }

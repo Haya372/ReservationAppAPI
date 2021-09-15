@@ -16,7 +16,10 @@ class Api::Admin::ReservationController < ApplicationController
         render json: Reservation.common_part(permitted_space_id[:space_id], params.permit(:start_time)[:start_time], params.permit(:end_time)[:end_time])
       end
     else
-      render json: Reservation.where(permitted_space_id).with_organization
+      render json: { 
+        "items" => Reservation.where(permitted_space_id).with_organization.page(params[:page]),
+        "total" => Reservation.where(permitted_space_id).count
+      }
     end
   end
 

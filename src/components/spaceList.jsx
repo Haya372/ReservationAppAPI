@@ -5,11 +5,14 @@ import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import Search from "../components/search.jsx";
 import { useHistory } from "react-router";
+import Pagination from '@material-ui/lab/Pagination';
 
 export default function SpaceList(props){
   const [search, setSearch] = useState("");
   const [spaces, setSpaces] = useState([]);
   const history = useHistory();
+  const [page, setPage] = useState(1);
+  const [total, setTotal] = useState(1);
 
   const onClickCreate = () => {
     history.push(`/organization/${props.organizationId}/space/new`)
@@ -19,14 +22,16 @@ export default function SpaceList(props){
     try{
       const res = await axios.get(`/api/admin/organization/${props.organizationId}/space`, { 
         params: {
-          search: search
+          search: search,
+          page: page
         }
       });
-      setSpaces(res.data);
+      setSpaces(res.data.items);
+      setTotal(Math.ceil(res.data.total / 25));
     } catch (err) {
       alert(err);
     }
-  }, [search]);
+  }, [search, page]);
   
   const secondary = {
     capacity: {
@@ -36,6 +41,13 @@ export default function SpaceList(props){
 
   const onChangeSearch = (e) => {
     setSearch(e.target.value);
+  }
+
+  const onChangePage = (e, newPage) => {
+    if(page == newPage){
+      return;
+    }
+    setPage(newPage);
   }
 
   return (
@@ -59,6 +71,14 @@ export default function SpaceList(props){
         path="/space"
         id="id"
       />
+      <div className="my-4 text-center">
+        <Pagination
+          count={total}
+          onChange={onChangePage}
+          defaultPage={1}
+          color="primary"
+        />
+      </div>
     </div>
   )
 }

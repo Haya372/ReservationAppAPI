@@ -5,7 +5,10 @@ class Api::Admin::OrganizationController < ApplicationController
 
   def index
     organizations = @current_user.organization_with_role(params[:search]);
-    render json: organizations
+    render json: {
+      "items" => organizations.page(params[:page]),
+      "total" => @current_user.organizations.count
+    }
   end
 
   def create
