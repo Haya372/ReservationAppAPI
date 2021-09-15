@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
-import List from '../components/list.jsx';
 import axios from "../utils/axios.js";
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import Search from "../components/search.jsx";
 import { useHistory } from "react-router";
 import Pagination from '@material-ui/lab/Pagination';
+import Table from '../components/table.jsx';
+import conf from '../configs/table/space.js';
 
 export default function SpaceList(props){
   const [search, setSearch] = useState("");
@@ -32,12 +33,6 @@ export default function SpaceList(props){
       alert(err);
     }
   }, [search, page]);
-  
-  const secondary = {
-    capacity: {
-      text: "capacity"
-    }
-  }
 
   const onChangeSearch = (e) => {
     setSearch(e.target.value);
@@ -64,11 +59,10 @@ export default function SpaceList(props){
           </Button>
         </div>
       </div>
-      <List
+      <Table
         items={spaces}
-        primary="name"
-        secondary={secondary}
-        path="/space"
+        conf={conf}
+        link={`/organization/${props.organizationId}/space`}
         id="id"
       />
       <div className="my-4 text-center">

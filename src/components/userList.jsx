@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import List from '../components/list.jsx';
 import axios from "../utils/axios.js";
 import Search from "../components/search.jsx";
 import Pagination from '@material-ui/lab/Pagination';
+import Table from '../components/table.jsx';
+import conf from '../configs/table/user.js';
 
 export default function UserList(props){
   const [search, setSearch] = useState("");
@@ -24,15 +25,6 @@ export default function UserList(props){
       alert(err);
     }
   }, [search, page]);
-  
-  const secondary = {
-    user_email: {
-      text: "email"
-    },
-    role: {
-      text: "role"
-    }
-  }
 
   const onChangeSearch = (e) => {
     setSearch(e.target.value);
@@ -54,11 +46,10 @@ export default function UserList(props){
           value={search}
         />
       </div>
-      <List
+      <Table
         items={users}
-        primary="user_name"
-        secondary={secondary}
-        path="/user"
+        conf={conf}
+        link={`/organization/${props.organizationId}/user`}
         id="user_id"
       />
       <div className="my-4 text-center">
