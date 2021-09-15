@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import List from '../components/list.jsx';
 import axios from "../utils/axios.js";
 import Search from "../components/search.jsx";
 import Pagination from '@material-ui/lab/Pagination';
+import Table from '../components/table.jsx';
+import conf from '../configs/table/reservation.js';
 
 export default function ReservationList(props){
   const [search, setSearch] = useState("");
@@ -12,7 +13,7 @@ export default function ReservationList(props){
 
   useEffect(async () => {
     try{
-      const res = await axios.get(`/api/admin/organization/${props.organiztionId}/space/${props.spaceId}/reservation`, { 
+      const res = await axios.get(`/api/admin/organization/${props.organizationId}/space/${props.spaceId}/reservation`, { 
         params: {
           search: search,
           page: page
@@ -24,21 +25,6 @@ export default function ReservationList(props){
       alert(err);
     }
   }, [search, page]);
-
-  const secondary = {
-    numbers: {
-      text: "予約",
-      suffix: "人,"
-    },
-    start_time: {
-      text: "start",
-      suffix: ","
-    },
-    end_time: {
-      text: "end",
-      suffix: ","
-    }
-  }
 
   const onChangeSearch = (e) => {
     setSearch(e.target.value);
@@ -60,11 +46,10 @@ export default function ReservationList(props){
           value={search}
         />
       </div>
-      <List
+      <Table
         items={reservations}
-        primary="space_name"
-        secondary={secondary}
-        path="/reservation"
+        conf={conf}
+        link={`/organization/${props.organizationId}/space/${props.spaceId}/reservation`}
         id="id"
       />
       <div className="my-4 text-center">

@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import Layout from '../components/layout.jsx';
-import List from "../components/list.jsx";
 import axios from "../utils/axios.js";
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import Search from "../components/search.jsx";
 import { useHistory } from "react-router";
 import Pagination from '@material-ui/lab/Pagination';
+import Table from '../components/table.jsx';
+import conf from '../configs/table/organization.js';
 
 export default function Home(props){
   const [organizations, setOrganizations] = useState([]);
@@ -29,12 +30,6 @@ export default function Home(props){
       alert(err);
     }
   }, [search, page]);
-
-  const secondary = {
-    role: {
-      text: "role"
-    }
-  }
 
   const onChangeSearch = (e) => {
     setSearch(e.target.value);
@@ -66,12 +61,11 @@ export default function Home(props){
           </Button>
         </div>
       </div>
-      <List
+      <Table
         items={organizations}
-        primary="organization_name"
-        secondary={secondary}
-        path="organization"
+        conf={conf}
         id="organization_id"
+        link="/organization"
       />
       <div className="my-4 text-center">
         <Pagination
