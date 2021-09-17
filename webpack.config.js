@@ -4,8 +4,8 @@ const path = require('path')
 
 const plugins = [
   new MiniCssExtractPlugin({
-    filename: "styles.css",
-    chunkFilename: "styles.css"
+    filename: ".css",
+    chunkFilename: "[name]-[chunkhash].css"
   }),
   new HtmlWebPackPlugin({
     template: "./src/index.html",
@@ -17,7 +17,7 @@ module.exports = {
   entry: "./src/index.js",
   output: {
     path: path.resolve('public'),
-    filename: '[name].js',
+    filename: '[name]-[chunkhash].bundle.js',
     publicPath: '/'
   },
   module: {
@@ -43,6 +43,30 @@ module.exports = {
         ],
       }
     ]
+  },
+  optimization: {
+    splitChunks: {
+      chunks: 'all',
+      minSize: 10000,
+      maxSize: 1000000,
+      minChunks: 1,
+      maxAsyncRequests: 5,
+      maxInitialRequests: 3,
+      automaticNameDelimiter: '~',
+      automaticNameMaxLength: 30,
+      name: true,
+      cacheGroups: {
+        vendors: {
+          test: /[\\/]node_modules[\\/]/,
+          priority: -10
+        },
+        default: {
+          minChunks: 2,
+          priority: -20,
+          reuseExistingChunk: true
+        }
+      }
+    }
   },
   plugins: plugins
 };
