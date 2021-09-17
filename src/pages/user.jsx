@@ -36,6 +36,7 @@ export default function User(props){
         conf={conf}
         delete={deletable}
         root={`/organization/${organization_id}`}
+        hash="#users"
       />
     </Layout>
   )

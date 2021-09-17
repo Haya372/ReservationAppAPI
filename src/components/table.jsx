@@ -59,7 +59,10 @@ export default function MyTable(props){
       }else{
         if(conf.link){
           const onClick = () => {
-            history.push(`${props.link}/${item[props.id]}`)
+            history.push({
+              pathname: `${props.link}/${item[props.id]}`,
+              hash: '#details'
+            });
           }
           rows.push(<TableCell align="left" key={key}>
             <div className="text-blue-400 underline hover:text-blue-700" onClick={onClick}>{value}</div>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router";
+import { useParams, useLocation, useHistory } from "react-router";
 import Layout from "../components/layout.jsx";
 import DetailsLayout from "../components/detailsLayout.jsx";
 import SpaceList from "../components/spaceList.jsx";
@@ -10,15 +10,21 @@ import UserList from "../components/userList.jsx";
 import conf from '../configs/organization.js';
 import axios from '../utils/axios.js';
 
+const tabs = ["details", "spaces", "users"];
+
 export default function Organization(props){
   const { organization_id } = useParams();
-  const [tab, setTab] = useState(0);
   const [deletable, setDeletabel] = useState(false);
   const [updatable, setUpdatable] = useState(false);
   const [creatable, setCreatable] = useState(false);
+  const location = useLocation();
+  const history = useHistory();
 
   const onTabChange = (e, newValue) => {
-    setTab(newValue);
+    history.push({
+      pathname: location.pathname,
+      hash: `#${tabs[newValue]}`
+    });
   }
 
   useEffect(async () => {
@@ -42,10 +48,16 @@ export default function Organization(props){
     }
   }, []);
 
+  const tabValue = () => {
+    const hash = location.hash.slice(1);
+    const tabIdx = tabs.indexOf(hash);
+    return tabIdx >= 0 ? tabIdx : 0;
+  }
+
   return (
     <Layout header="Organization">
       <Tabs
-        value={tab}
+        value={tabValue()}
         indicatorColor="primary"
         textColor="primary"
         onChange={onTabChange}
@@ -55,7 +67,7 @@ export default function Organization(props){
         <Tab label="Users"/>
       </Tabs>
       <TabItems
-        value={tab}
+        value={tabValue()}
         items={[
           <DetailsLayout
             apiPath={`/api/admin/organization/${organization_id}`}
