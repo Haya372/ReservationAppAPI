@@ -57,23 +57,19 @@ export default function MyTable(props){
           {resources[conf.component](inputProps)}
         </TableCell>)
       }else{
-        if(conf.link){
-          const onClick = () => {
-            history.push({
-              pathname: `${props.link}/${item[props.id]}`,
-              hash: '#details'
-            });
-          }
-          rows.push(<TableCell align="left" key={key}>
-            <div className="text-blue-400 underline hover:text-blue-700" onClick={onClick}>{value}</div>
-          </TableCell>);
-        }else{
-          rows.push(<TableCell align="left" key={key}>{value}</TableCell>);
-        }
+        rows.push(<TableCell align="left" key={key}>{value}</TableCell>);
       }
     });
 
-    items.push(<TableRow key={idx}>{rows}</TableRow>);
+    const onClick = () => {
+      if(typeof props.link != 'string') return;
+      history.push({
+        pathname: `${props.link}/${item[props.id]}`,
+        hash: '#details'
+      });
+    }
+
+    items.push(<TableRow key={idx} hover={typeof props.link == 'string'} onClick={onClick}>{rows}</TableRow>);
   });
 
   return (
