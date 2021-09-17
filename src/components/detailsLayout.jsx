@@ -11,6 +11,7 @@ import { useHistory } from 'react-router';
 import SuccessAlert from './successAlert.jsx';
 import ErrorAlert from './errorAlert.jsx';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import EditPassword from './editPassword.jsx';
 
 /*
  props: {
@@ -204,6 +205,14 @@ export default function DetailsLayout(props){
           :
           <Grid item xs={12}>
             <div className="flex justify-around">
+              { props.password && !props.disabled ?
+              <EditPassword
+                apiPath={props.apiPath}
+                success={setSuccess}
+                error={setError}
+              />
+              : null
+              }
               { props.delete ?
                 <div className="text-red-500">
                   <Button

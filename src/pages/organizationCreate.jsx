@@ -2,12 +2,13 @@ import React from "react";
 import Layout from "../components/layout.jsx";
 import CreateLayout from '../components/createLayout.jsx';
 import conf from '../configs/organization.js';
+import { useEffect } from "react";
 
 export default function OrganizationCreate(props){
   conf["password"] = {
     size: 12,
     required: true,
-    component: 'text',
+    component: 'password',
     props: {
       fullWidth: true,
       notNull: true,
@@ -15,6 +16,12 @@ export default function OrganizationCreate(props){
       type: "password",
     }
   }
+
+  useEffect(() => {
+    return () => {
+      delete conf["password"]
+    }
+  }, []);
 
   return (
     <Layout header="Organization">

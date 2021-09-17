@@ -54,7 +54,7 @@ export default function SpaceList(props){
           value={search}
         />
         <div className="text-blue-400">
-          <Button endIcon={<AddIcon />} color="inherit" variant="outlined" onClick={onClickCreate} disabled={props.creatable}>
+          <Button endIcon={<AddIcon />} color="inherit" variant="outlined" onClick={onClickCreate} disabled={!props.create}>
             新規作成
           </Button>
         </div>
