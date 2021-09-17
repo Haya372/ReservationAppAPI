@@ -26,6 +26,9 @@ class Api::Admin::OrganizationController < ApplicationController
 
   def update
     organization = Organization.find(params[:id])
+    if !params[:password].blank?
+      raise ForbiddenError if !organization.authenticate(params[:oldPassword])
+    end
     begin
       organization.update!(organization_params)
     rescue ActiveRecord::RecordInvalid, ActiveRecord::NotNullViolation => e

@@ -75,6 +75,7 @@ export default function Organization(props){
             conf={conf}
             delete={deletable}
             root='/'
+            password
           />,
           <SpaceList organizationId={organization_id} create={creatable}/>,
           <UserList organizationId={organization_id} />,
