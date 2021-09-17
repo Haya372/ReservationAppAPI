@@ -36,7 +36,7 @@ export default function Home(props){
   }
 
   const onClickCreate = () => {
-    history.push('/organization/new')
+    history.push('/organization/new');
   }
 
   const onChangePage = (e, newPage) => {

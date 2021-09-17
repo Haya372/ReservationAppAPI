@@ -165,7 +165,10 @@ export default function DetailsLayout(props){
   const onClickDelete = async () => {
     try {
       const res = await axios.delete(props.apiPath);
-      history.push(props.root)
+      history.push({
+        pathname: props.root,
+        hash: props.hash
+      });
     } catch(err) {
       setError(true);
       const t = setTimeout(() => {

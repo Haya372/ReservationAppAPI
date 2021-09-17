@@ -16,6 +16,7 @@ export default function Reservation(props){
         conf={conf}
         delete={deletable}
         root={`/organization/${organization_id}/${space_id}`}
+        hash="#reservations"
       />
     </Layout>
   )

@@ -28,7 +28,10 @@ export default function Breadcrumb(props){
       return null;
     }
     const onClick = () => {
-      history.push(`${basePath}/${obj.id}`);
+      history.push({
+        pathname: `${basePath}/${obj.id}`,
+        hash: "#details"
+      });
     }
 
     return (
