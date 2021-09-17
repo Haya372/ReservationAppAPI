@@ -8,7 +8,7 @@ export default function OrganizationCreate(props){
   conf["password"] = {
     size: 12,
     required: true,
-    component: 'text',
+    component: 'password',
     props: {
       fullWidth: true,
       notNull: true,
