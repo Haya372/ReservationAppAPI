@@ -9,7 +9,7 @@ export default {
   role: {
     text: "権限"
   },
-  description: {
+  organization_description: {
     text: "説明"
   }
 }
