@@ -48,16 +48,21 @@ export default function MyTable(props){
         ...conf.props
       };
 
+      const style = {
+        maxWidth: '500px',
+        ...conf.props?.styles
+      }
+
       if(typeof conf.component == 'function'){
-        rows.push(<TableCell align="left" key={key}>
+        rows.push(<TableCell align="left" key={key} style={style}>
             {conf.component(inputProps)}
           </TableCell>)
       }else if(typeof conf.component == 'string'){
-        rows.push(<TableCell align="left" key={key}>
+        rows.push(<TableCell align="left" key={key} style={style}>
           {resources[conf.component](inputProps)}
         </TableCell>)
       }else{
-        rows.push(<TableCell align="left" key={key}>{value}</TableCell>);
+        rows.push(<TableCell align="left" key={key} style={style}><div className="truncate">{value}</div></TableCell>);
       }
     });
 
@@ -73,14 +78,16 @@ export default function MyTable(props){
   });
 
   return (
-    <Table>
-      <TableHead>
-        <TableRow>{header}</TableRow>
-      </TableHead>
-      <TableBody>
-        {items}
-      </TableBody>
-    </Table>
+    <div className="overflow-scroll">
+      <Table>
+        <TableHead>
+          <TableRow>{header}</TableRow>
+        </TableHead>
+        <TableBody>
+          {items}
+        </TableBody>
+      </Table>
+    </div>
   )
 
 
