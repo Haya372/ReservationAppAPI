@@ -62,6 +62,11 @@ export default function CreateLayout(props){
           pathname: `/organization/${props.organizationId}/space/${id}`,
           hash: "#details"
         });
+      }else if(props.resourceName == 'reservation'){
+        history.push({
+          pathname: `/organization/${props.organizationId}/space/${props.spaceId}/reservation/${id}`,
+          hash: "#details"
+        })
       }
     } catch(err) {
       setError(true);

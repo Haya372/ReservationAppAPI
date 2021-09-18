@@ -185,7 +185,20 @@ export default function DetailsLayout(props){
         <div className="text-center"><CircularProgress /></div>
       :
         <Grid container spacing={3}>
-          <Grid item xs={10} />
+          <Grid item xs={10}>
+            { props.delete ?
+              <div className="text-red-500 flex justify-end">
+                <Button
+                  variant="outlined"
+                  onClick={onClickDelete}
+                  color='inherit'
+                >
+                  Delete
+                </Button>
+              </div>
+            : null
+            }
+          </Grid>
           <Grid item xs={2}>
             <Checkbox
               checked={lock}
@@ -211,18 +224,6 @@ export default function DetailsLayout(props){
                 success={setSuccess}
                 error={setError}
               />
-              : null
-              }
-              { props.delete ?
-                <div className="text-red-500">
-                  <Button
-                    variant="outlined"
-                    onClick={onClickDelete}
-                    color='inherit'
-                  >
-                    Delete
-                  </Button>
-                </div>
               : null
               }
               <div className="text-blue-400">
