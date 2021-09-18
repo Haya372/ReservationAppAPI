@@ -28,13 +28,10 @@ class Api::OrganizationController < ApplicationController
   end
 
   def show
-    organization = Organization.find(params[:id])
+    organization = Organization.show_params.find(params[:id])
     raise ActiveRecord::RecordNotFound if organization.blank?
-    render json: {
-      "id" => organization.id,
-      "name" => organization.name,
-      "users" => organization.users.select(:id, :name, :kana)
-    }
+    users = { users: organization.users.select(:id, :name, :kana) }
+    render json: organization.attributes.merge!(users)
   end
 
   def index
