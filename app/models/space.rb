@@ -18,7 +18,7 @@ class Space < ApplicationRecord
   }
 
   def self.show_attributes
-    ["id", "name", "capacity", "description", "rule"]
+    ["id", "name", "capacity", "description", "rule", "image_url"]
   end
 
   def validate_capacity_on_update

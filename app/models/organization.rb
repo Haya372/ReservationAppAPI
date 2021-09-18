@@ -18,7 +18,7 @@ class Organization < ApplicationRecord
   }
 
   def self.show_attributes
-    ["id", "name", "description", "rule", "public"]
+    ["id", "name", "description", "rule", "public", "image_url"]
   end
 
   def self.search_user(organization_id, search)
