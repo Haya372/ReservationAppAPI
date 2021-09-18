@@ -15,6 +15,7 @@ export default function Space(props){
   const { organization_id, space_id } = useParams();
   const [deletable, setDeletabel] = useState(false);
   const [updatable, setUpdatable] = useState(false);
+  const [creatable, setCreatable] = useState(false);
   const location = useLocation();
   const history = useHistory();
 
@@ -35,6 +36,9 @@ export default function Space(props){
             break;
           case 'delete':
             setDeletabel(true);
+            break;
+          case 'create':
+            setCreatable(true);
             break;
         }
       });
@@ -71,7 +75,7 @@ export default function Space(props){
             root={`/organization/${organization_id}`}
             hash="#spaces"
           />,
-          <ReservationList organizationId={organization_id} spaceId={space_id} />
+          <ReservationList organizationId={organization_id} spaceId={space_id} create={creatable}/>
         ]}
       />
     </Layout>

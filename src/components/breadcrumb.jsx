@@ -51,7 +51,7 @@ export default function Breadcrumb(props){
       </div>
       {createElement(organization, '/organization')}
       {createElement(space, `/organization/${organization_id}/space`)}
-      {createElement({ id: reservation_id, name: reservation_id }, `/organization/${organization_id}/space/${reservation_id}`)}
+      {createElement({ id: reservation_id, name: reservation_id == "new" ? undefined : reservation_id }, `/organization/${organization_id}/space/${reservation_id}`)}
     </div>
   )
 }

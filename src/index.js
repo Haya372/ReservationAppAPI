@@ -9,6 +9,7 @@ import OrganizationCreate from "./pages/organizationCreate.jsx";
 import SpaceCreate from "./pages/spaceCreate.jsx";
 import User from "./pages/user.jsx";
 import Reservation from "./pages/reservation.jsx";
+import ReservationCreate from "./pages/reservationCreate.jsx";
 import "tailwindcss/base.css";
 import "tailwindcss/components.css";
 import "tailwindcss/utilities.css";
@@ -45,6 +46,9 @@ const Index = () => {
             </CustomRoute>
             <CustomRoute path="/organization/:organization_id/space/:space_id" exact>
               <Space />
+            </CustomRoute>
+            <CustomRoute path="/organization/:organization_id/space/:space_id/reservation/new" exact>
+              <ReservationCreate />
             </CustomRoute>
             <CustomRoute path="/organization/:organization_id/space/:space_id/reservation/:reservation_id" exact>
               <Reservation />
