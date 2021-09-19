@@ -24,8 +24,8 @@ class Organization < ApplicationRecord
   def self.search_user(organization_id, search)
     search = "" if search.nil?
     keyword = sanitize_sql_like(search) + "%"
-    self.find(organization_id).users.select(:id, :name, :kana).where('kana like ?', keyword)
-                    .or(self.find(organization_id).users.select(:id, :name, :kana).where('name like ?', keyword))
+    self.find(organization_id).users.show_params.where('kana like ?', keyword)
+                    .or(self.find(organization_id).users.show_params.where('name like ?', keyword))
   end
 
   def self.search(search)
