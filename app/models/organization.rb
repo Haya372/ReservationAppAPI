@@ -7,7 +7,7 @@ class Organization < ApplicationRecord
 
   has_many :user_organizations, dependent: :delete_all
   has_many :users, through: :user_organizations
-  has_many :spaces, dependent: :delete_all
+  has_many :spaces, dependent: :destroy
 
   scope :show_params, -> {
     columns = ''

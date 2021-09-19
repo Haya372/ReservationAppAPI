@@ -12,6 +12,7 @@ import SuccessAlert from './successAlert.jsx';
 import ErrorAlert from './errorAlert.jsx';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import EditPassword from './editPassword.jsx';
+import DeleteButton from './deleteButton.jsx';
 
 /*
  props: {
@@ -187,15 +188,7 @@ export default function DetailsLayout(props){
         <Grid container spacing={3}>
           <Grid item xs={10}>
             { props.delete ?
-              <div className="text-red-500 flex justify-end">
-                <Button
-                  variant="outlined"
-                  onClick={onClickDelete}
-                  color='inherit'
-                >
-                  Delete
-                </Button>
-              </div>
+              <DeleteButton onClick={onClickDelete} />
             : null
             }
           </Grid>
