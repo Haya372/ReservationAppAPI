@@ -2,7 +2,7 @@ FROM ruby:3.0.0
 
 RUN apt-get update -qq
 RUN curl -sL https://deb.nodesource.com/setup_14.x | bash -
-RUN apt-get install -y nodejs postgresql-client
+RUN apt-get install -y nodejs postgresql-client cron
 RUN npm install npm@latest -g
 RUN mkdir /myapp
 WORKDIR /myapp
@@ -18,6 +18,7 @@ COPY entrypoint.sh /usr/bin/
 RUN chmod +x /usr/bin/entrypoint.sh
 ENTRYPOINT ["entrypoint.sh"]
 EXPOSE 3000
+RUN bundle exec whenever --update-crontab
 
 # Start the main process.
 CMD ["npm", "run", "start"]

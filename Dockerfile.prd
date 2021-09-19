@@ -3,7 +3,7 @@ FROM ruby:3.0.0
 RUN apt-get update -qq
 RUN apt-get install sudo
 RUN sudo curl -sL https://deb.nodesource.com/setup_14.x | sudo bash -
-RUN sudo apt-get install -y nodejs postgresql-client
+RUN sudo apt-get install -y nodejs postgresql-client cron
 RUN mkdir /myapp
 WORKDIR /myapp
 ENV TZ Asia/Tokyo
@@ -21,6 +21,7 @@ EXPOSE $PORT
 
 RUN npm install
 RUN npm run build
+RUN bundle exec whenever --update-crontab
 
 # Start the main process.
 CMD ["rails", "s", "-b", "0.0.0.0"]
