@@ -21,7 +21,7 @@ class Api::SpaceController < ApplicationController
   end
 
   def space_params
-    params.permit(:name, :capacity)
+    params.permit(:name, :capacity, :image_url, :description, :rule)
   end
 
   def check_perm

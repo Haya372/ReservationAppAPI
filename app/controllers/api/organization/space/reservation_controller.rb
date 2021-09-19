@@ -65,7 +65,7 @@ class Api::Organization::Space::ReservationController < ApplicationController
   end
 
   def reservation_update_params
-    params.permit(:numbers, :start_time, :end_time)
+    params.permit(:numbers, :start_time, :end_time, :users)
   end
 
   def permitted_space_id
