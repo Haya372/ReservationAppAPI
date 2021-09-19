@@ -4,7 +4,7 @@ class Api::Organization::ReservationCntController < ApplicationController
   before_action :check_perm, except: [:index]
 
   def index
-    raise BadRequestError if params[:year].blank? || params[:month].blank?
+    raise BadRequestError.new("invalid property") if params[:year].blank? || params[:month].blank?
     keyword = params[:year] + '/' + params[:month] + '/'
     render json: Organization.search_reservation_count(params[:organization_id], keyword)
   end

@@ -10,7 +10,7 @@ class Api::OrganizationController < ApplicationController
         UserOrganization.create(user_id: @current_user.id, organization_id: @organization.id, role: ["create", "read", "update", "delete"])
       rescue ActiveRecord::RecordInvalid, ActiveRecord::NotNullViolation => e
         logger.debug e
-        raise BadRequestError
+        raise BadRequestError.new("invalid property")
       end
     end
     render json: Organization.show_params.find(@organization.id)
@@ -22,7 +22,7 @@ class Api::OrganizationController < ApplicationController
       organization.update!(organization_params)
     rescue ActiveRecord::RecordInvalid, ActiveRecord::NotNullViolation => e
       logger.debug e
-      raise BadRequestError
+      raise BadRequestError.new("invalid property")
     end
     render json: Organization.show_params.find(organization.id)
   end

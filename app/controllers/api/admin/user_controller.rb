@@ -12,7 +12,7 @@ class Api::Admin::UserController < ApplicationController
   end
 
   def update
-    raise BadRequestError if params[:id].blank?
+    raise BadRequestError.new("invalid property") if params[:id].blank?
     user_organization = UserOrganization.where(user_id: params[:id]).find_by(organization_id: params[:organization_id])
     user_organization.update!(role: params[:role])
     render json: User.with_role(params[:id], params[:organization_id])

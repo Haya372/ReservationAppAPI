@@ -9,7 +9,7 @@ class Api::UserController < ApplicationController
       response.headers['X-Authentication-Token'] = token
     rescue ActiveRecord::RecordInvalid, ActiveRecord::NotNullViolation => e
       logger.debug e
-      raise BadRequestError
+      raise BadRequestError.new("invalid property")
     end
     render json: User.show_params.find(user.id)
   end
@@ -32,7 +32,7 @@ class Api::UserController < ApplicationController
       @current_user.update!(user_params)
     rescue ActiveRecord::RecordInvalid, ActiveRecord::NotNullViolation => e
       logger.debug e
-      raise BadRequestError
+      raise BadRequestError.new("invalid property")
     end
     render json: @current_user
   end
