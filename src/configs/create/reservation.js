@@ -12,6 +12,7 @@ export default {
     size: 6,
     required: true,
     component: 'datetime',
+    type: 'date',
     props: {
       label: '開始時刻',
       fullWidth: true,
@@ -21,6 +22,7 @@ export default {
     size: 6,
     required: true,
     component: 'datetime',
+    type: 'date',
     props: {
       label: '終了時刻',
       fullWidth: true,

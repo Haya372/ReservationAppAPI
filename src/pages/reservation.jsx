@@ -31,7 +31,7 @@ export default function Reservation(props){
         disabled={true}
         conf={conf}
         delete={deletable}
-        root={`/organization/${organization_id}/${space_id}`}
+        root={`/organization/${organization_id}/space/${space_id}`}
         hash="#reservations"
       />
     </Layout>

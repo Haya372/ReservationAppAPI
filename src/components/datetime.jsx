@@ -25,13 +25,11 @@ export default function Datetime(props){
     });
   }
 
-  const value = props.value ? new Date(props.value) : new Date();
-
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
       <KeyboardDateTimePicker
         variant="dialig"
-        value={value}
+        value={props.value}
         onChange={onChange}
         ampm={false}
         format="yyyy/MM/dd HH:mm"
