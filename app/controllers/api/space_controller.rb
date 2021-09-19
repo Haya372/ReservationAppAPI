@@ -11,7 +11,7 @@ class Api::SpaceController < ApplicationController
   end
 
   def update
-    raise BadRequestError if !@space.update(space_params)
+    raise BadRequestError.new("invalid property") if !@space.update(space_params)
     render json: @space
   end
 

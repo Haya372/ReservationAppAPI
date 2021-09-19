@@ -15,7 +15,7 @@ class Api::ReservationController < ApplicationController
         @reservation.update!(reservation_update_params)
       rescue ActiveRecord::RecordInvalid, ActiveRecord::NotNullViolation => e
         logger.debug e
-        raise BadRequestError
+        raise BadRequestError.new("invalid property")
       end
     end
     # 参加する人の情報もいい感じに変更できたらいいかも

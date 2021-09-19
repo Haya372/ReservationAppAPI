@@ -1,10 +1,9 @@
 class Api::Organization::UserController < ApplicationController
   include JwtAuth
   before_action :jwt_authenticate
-  before_action :check_perm, except: [:index]
+  before_action :check_perm
 
   def index
-    raise ForbiddenError if UserOrganization.where(user_id: @current_user.id).where(organization_id: params[:organization_id]).blank?
     render json: Organization.search_user(params[:organization_id], params[:search])
   end
 

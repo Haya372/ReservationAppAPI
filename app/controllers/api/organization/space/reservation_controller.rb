@@ -10,19 +10,20 @@ class Api::Organization::Space::ReservationController < ApplicationController
         ReservationCount.add(@reservation)
       rescue ActiveRecord::RecordInvalid, ActiveRecord::NotNullViolation => e
         logger.debug e
-        raise BadRequestError
+        raise BadRequestError.new("invalid property")
       end
     end
     render json: @reservation
   end
 
   def show
+    raise ActiveRecord::RecordNotFound if !@current_user.belong_organization(params[:organization_id])
     render json: Reservation.with_organization.find(params[:id])
   end
 
   def index
     if !params[:start_time].blank? && !params[:end_time].blank?
-      raise BadRequestError if DateTime.parse(params[:end_time]) - DateTime.parse(params[:start_time]) <= 0
+      raise BadRequestError.new("invalid property") if DateTime.parse(params[:end_time]) - DateTime.parse(params[:start_time]) <= 0
       if params[:sumOnly] && params[:sumOnly].downcase == "true"
         common = Reservation.common_part(permitted_space_id[:space_id], params.permit(:start_time)[:start_time], params.permit(:end_time)[:end_time])
         render json: { "sum" => common.sum(:numbers) }
@@ -36,7 +37,6 @@ class Api::Organization::Space::ReservationController < ApplicationController
 
   def update
     reservation = Reservation.find(params[:id])
-    raise ActiveRecord::RecordNotFound if reservation.blank?
     raise ForbiddenError if reservation.user_id != @current_user.id
     ActiveRecord::Base.transaction do
       begin

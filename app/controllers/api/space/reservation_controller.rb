@@ -12,7 +12,7 @@ class Api::Space::ReservationController < ApplicationController
         ReservationCount.add(@reservation)
       rescue ActiveRecord::RecordInvalid, ActiveRecord::NotNullViolation => e
         logger.debug e
-        raise BadRequestError
+        raise BadRequestError.new("invalid property")
       end
     end
     render json: @reservation
@@ -20,9 +20,9 @@ class Api::Space::ReservationController < ApplicationController
 
   def index
     space = Space.with_organization.find(params[:space_id])
-    raise ForbiddenError if !@current_user.belong_organization(space.organization_id)
+    raise ActiveRecord::RecordNotFound if !@current_user.belong_organization(space.organization_id)
     if !params[:start_time].blank? && !params[:end_time].blank?
-      raise BadRequestError if DateTime.parse(params[:end_time]) - DateTime.parse(params[:start_time]) <= 0
+      raise BadRequestError.new("invalid property") if DateTime.parse(params[:end_time]) - DateTime.parse(params[:start_time]) <= 0
       if params[:sumOnly] && params[:sumOnly].downcase == "true"
         common = Reservation.common_part(params[:space_id], params.permit(:start_time)[:start_time], params.permit(:end_time)[:end_time])
         render json: { "sum" => common.sum(:numbers) }
@@ -47,7 +47,7 @@ class Api::Space::ReservationController < ApplicationController
         @reservation.update!(reservation_update_params)
       rescue ActiveRecord::RecordInvalid, ActiveRecord::NotNullViolation => e
         logger.debug e
-        raise BadRequestError
+        raise BadRequestError.new("invalid property")
       end
     end
     # 参加する人の情報もいい感じに変更できたらいいかも
