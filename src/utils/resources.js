@@ -6,6 +6,7 @@ import Datetime from "../components/datetime.jsx";
 import UserChips from "../components/userChips.jsx";
 import Password from "../components/password.jsx";
 import Flg from "../components/flg.jsx";
+import Chips from "../components/arrayText.jsx";
 
 export default {
   'text': (props) => <TextForm {...props} />,
@@ -15,5 +16,6 @@ export default {
   'user': (props) => <UserChips {...props} />,
   'password': (props) => <Password {...props} />,
   'textmulti': (props) => <TextField multiline maxRows="10" minRows="10" {...props} />,
-  'flg': (props) => <Flg {...props} />
+  'flg': (props) => <Flg {...props} />,
+  'arraytext': (props) => <Chips {...props} />
 }

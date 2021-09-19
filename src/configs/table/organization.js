@@ -7,7 +7,11 @@ export default {
     link: true
   },
   role: {
-    text: "権限"
+    text: "権限",
+    component: 'arraytext',
+    props: {
+      join: ', '
+    }
   },
   organization_description: {
     text: "説明"

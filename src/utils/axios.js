@@ -12,15 +12,17 @@ axios.interceptors.response.use(function (response) {
 }, function (error) {
   switch (error.response?.status) {
     case 401:
-      localStorage.removeItem('token');
-      location.href = 'http://localhost:30001'; // 環境変数を使うなりして書き変える
+      if(localStorage.getItem('token')){
+        console.log('aaa')
+        localStorage.removeItem('token');
+        location.href = 'http://localhost:30001'; // 環境変数を使うなりして書き変える
+      }
       break;
     case 500:
       alert(error);
       break;
-    default:
-      return error;
   }
+  throw error;
 });
 
 export default axios;
