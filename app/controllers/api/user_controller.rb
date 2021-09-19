@@ -11,11 +11,11 @@ class Api::UserController < ApplicationController
       logger.debug e
       raise BadRequestError
     end
-    render json: user
+    render json: User.show_params.find(user.id)
   end
 
   def user_params
-    params.permit(:name, :email, :kana, :password)
+    params.permit(:name, :email, :kana, :password, :image_url)
   end
 
   def index
@@ -24,7 +24,7 @@ class Api::UserController < ApplicationController
 
   def show
     # アクセスを簡単に許していいのかは要検討
-    render json: User.select(:id, :name, :kana).find(params[:id])
+    render json: User.show_params.find(params[:id])
   end
 
   def update

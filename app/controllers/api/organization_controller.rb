@@ -48,6 +48,6 @@ class Api::OrganizationController < ApplicationController
   end
 
   def organization_params
-    params.permit(:name, :password)
+    params.permit(:name, :password, :image_url, :rule, :public)
   end
 end
