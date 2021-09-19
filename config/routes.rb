@@ -23,13 +23,6 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :space, only: [:show, :update, :destroy] do
-      scope module: :space do
-        resources :reservation
-      end
-    end
-    resources :reservation, only: [:show, :update, :destroy]
-
     namespace :admin do
       get 'organization/:id/role', to: 'organization#role'
       resources :organization do
