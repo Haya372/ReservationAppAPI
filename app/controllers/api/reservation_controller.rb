@@ -34,7 +34,7 @@ class Api::ReservationController < ApplicationController
 
   private
   def reservation_update_params
-    params.permit(:numbers, :start_time, :end_time)
+    params.permit(:numbers, :start_time, :end_time, :users)
   end
 
   def check_perm
