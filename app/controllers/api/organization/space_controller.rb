@@ -9,7 +9,7 @@ class Api::Organization::SpaceController < ApplicationController
         @space = Space.create(space_params)
       rescue ActiveRecord::NotNullViolation => e
         logger.debug e
-        raise BadRequestError
+        raise BadRequestError.new("invalid property")
       end
     end
     render json: @space
@@ -25,7 +25,7 @@ class Api::Organization::SpaceController < ApplicationController
 
   def update
     space = Space.find(params[:id])
-    raise BadRequestError if !space.update(space_params)
+    raise BadRequestError.new("invalid property") if !space.update(space_params)
     render json: space
   end
 

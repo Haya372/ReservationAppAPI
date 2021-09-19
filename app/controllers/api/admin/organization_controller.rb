@@ -18,7 +18,7 @@ class Api::Admin::OrganizationController < ApplicationController
         UserOrganization.create(user_id: @current_user.id, organization_id: @organization.id, role: ["create", "read", "update", "delete"])
       rescue ActiveRecord::RecordInvalid, ActiveRecord::NotNullViolation => e
         logger.debug e
-        raise BadRequestError
+        raise BadRequestError.new("invalid property")
       end
     end
     render json: Organization.show_params.find(@organization.id)
@@ -27,13 +27,13 @@ class Api::Admin::OrganizationController < ApplicationController
   def update
     organization = Organization.find(params[:id])
     if !params[:password].blank?
-      raise ForbiddenError if !organization.authenticate(params[:oldPassword])
+      raise UnAuthorizationError if !organization.authenticate(params[:oldPassword])
     end
     begin
       organization.update!(organization_params)
     rescue ActiveRecord::RecordInvalid, ActiveRecord::NotNullViolation => e
       logger.debug e
-      raise BadRequestError
+      raise BadRequestError.new("invalid property")
     end
     render json: Organization.show_params.find(organization.id)
   end

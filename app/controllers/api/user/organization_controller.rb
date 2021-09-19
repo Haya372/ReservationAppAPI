@@ -8,7 +8,7 @@ class Api::User::OrganizationController < ApplicationController
 
   def join_organization
     organization = Organization.find(params[:id])
-    raise ForbiddenError if !organization.authenticate(params[:password])
+    raise UnAuthorizationError if !organization.authenticate(params[:password])
     UserOrganization.create!(user_id: @current_user.id, organization_id: params[:id], role: [])
     render json: @current_user.organizations.show_params
   end
