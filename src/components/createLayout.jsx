@@ -37,6 +37,8 @@ const getItem = (key, conf, item) => {
       return [];
     case 'boolean':
       return false;
+    case 'date':
+      return new Date();
     default:
       return '';
   }
@@ -84,6 +86,16 @@ export default function CreateLayout(props){
       }
     }
   }, [timer]);
+
+  useEffect(() => {
+    const defaultItem = {};
+    Object.keys(props.conf).forEach((key) => {
+      const conf = props.conf[key];
+      const value = getItem(key, conf ,item);
+      defaultItem[key] = value;
+    });
+    setItem(defaultItem);
+  }, []);
 
   const gridItems = [];
 
