@@ -54,3 +54,5 @@ gem 'dotenv-rails'
 
 # for pagenation
 gem 'kaminari'
+
+gem 'whenever', require: false
