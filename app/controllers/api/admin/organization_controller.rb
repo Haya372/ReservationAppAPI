@@ -4,7 +4,7 @@ class Api::Admin::OrganizationController < ApplicationController
   before_action :check_perm, except: [:index, :create, :role]
 
   def index
-    organizations = @current_user.organization_with_role(params[:search]);
+    organizations = @current_user.organization_with_role(params[:search]).order(id: :asc);
     render json: {
       "items" => organizations.page(params[:page]),
       "total" => @current_user.organizations.count

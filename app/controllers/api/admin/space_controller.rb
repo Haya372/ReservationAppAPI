@@ -21,7 +21,7 @@ class Api::Admin::SpaceController < ApplicationController
 
   def index
     render json: {
-      "items" => Space.where(permitted_organization_id).page(params[:page]),
+      "items" => Space.where(permitted_organization_id).order(id: :asc).page(params[:page]),
       "total" => Space.where(permitted_organization_id).count
     }
   end
