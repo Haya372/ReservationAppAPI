@@ -25,7 +25,7 @@ class User < ApplicationRecord
     Organization.show_attributes.each {|attr|
       columns += "organizations." + attr + " as organization_" + attr + ","
     }
-    self.organizations.select(columns.chop).where('organizations.name like ?', keyword)
+    self.organizations.select(columns.chop).where('organizations.name like ?', keyword).where('role && ARRAY[?]::varchar[]', ["create", "read", "update", "delete"])
   end
 
   def self.with_role(user_id, organization_id)
