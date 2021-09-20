@@ -7,6 +7,7 @@ import UserChips from "../components/userChips.jsx";
 import Password from "../components/password.jsx";
 import Flg from "../components/flg.jsx";
 import Chips from "../components/arrayText.jsx";
+import ColorPicker from "../components/colorPicker.jsx";
 
 export default {
   'text': (props) => <TextForm {...props} />,
@@ -17,5 +18,6 @@ export default {
   'password': (props) => <Password {...props} />,
   'textmulti': (props) => <TextField multiline maxRows="10" minRows="10" {...props} />,
   'flg': (props) => <Flg {...props} />,
-  'arraytext': (props) => <Chips {...props} />
+  'arraytext': (props) => <Chips {...props} />,
+  'color': (props) => <ColorPicker {...props} />
 }

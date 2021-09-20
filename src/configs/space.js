@@ -36,4 +36,11 @@ export default {
     },
     type: 'string',
   },
+  color: {
+    size: 4,
+    component: 'color',
+    props: {
+      label: '色'
+    }
+  }
 }
