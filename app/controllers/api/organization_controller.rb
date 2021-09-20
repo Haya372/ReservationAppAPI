@@ -35,7 +35,7 @@ class Api::OrganizationController < ApplicationController
   end
 
   def index
-    render json: Organization.search(params[:search])
+    render json: Organization.search(params[:search]).where(public: true)
   end
 
   def destroy
