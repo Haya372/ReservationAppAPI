@@ -13,9 +13,9 @@ axios.interceptors.response.use(function (response) {
   switch (error.response?.status) {
     case 401:
       if(localStorage.getItem('token')){
-        console.log('aaa')
+        const host = process.env.HOST ? `https://${process.env.HOST}` : 'http://localhost:30001';
         localStorage.removeItem('token');
-        location.href = 'http://localhost:30001'; // 環境変数を使うなりして書き変える
+        location.href = host;
       }
       break;
     case 500:
