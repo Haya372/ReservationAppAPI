@@ -4,9 +4,9 @@ class Api::Admin::UserController < ApplicationController
   before_action :check_perm
 
   def index
-    organization = Organization.find(params[:organization_id]).order(id: :asc)
+    organization = Organization.find(params[:organization_id])
     render json: {
-      "items": organization.user_with_role(params[:search]).page(params[:page]),
+      "items": organization.user_with_role(params[:search]).order(id: :asc).page(params[:page]),
       "total": organization.users.count
     }
   end
