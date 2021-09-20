@@ -35,7 +35,7 @@ class Api::Organization::SpaceController < ApplicationController
   end
 
   def space_params
-    params.permit(:name, :capacity, :organization_id, :rule, :description, :image_url)
+    params.permit(:name, :capacity, :organization_id, :rule, :description, :image_url, :color)
   end
 
   def permitted_organization_id
