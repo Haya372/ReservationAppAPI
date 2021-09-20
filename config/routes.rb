@@ -1,5 +1,15 @@
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+
+  ## 管理画面ファイルの配信
+  get '/', to: 'static_file#index'
+  get '/login', to: 'static_file#index'
+  get '/organization/:organization_id', to: 'static_file#index'
+  get '/organization/:organization_id/user', to: 'static_file#index'
+  get '/organization/:organization_id/user/:user_id', to: 'static_file#index'
+  get '/organization/:organization_id/space/:space_id', to: 'static_file#index'
+  get '/organization/:organization_id/space/:space_id/reservation/:reservation_id', to: 'static_file#index'
+
   namespace :api do
     resource :login
     get 'login/user', to: 'logins#user'
