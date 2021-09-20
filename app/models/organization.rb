@@ -31,7 +31,7 @@ class Organization < ApplicationRecord
   def self.search(search)
     search = "" if search.blank?
     keyword = sanitize_sql_like(search) + "%"
-    self.select(:id, :name).where('name like ?', keyword)
+    self.show_params.where('name like ?', keyword)
   end
 
   def self.search_reservation_count(organization_id, keyword)

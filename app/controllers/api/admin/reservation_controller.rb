@@ -27,11 +27,11 @@ class Api::Admin::ReservationController < ApplicationController
         common = Reservation.common_part(permitted_space_id[:space_id], params.permit(:start_time)[:start_time], params.permit(:end_time)[:end_time])
         render json: { "sum" => common.sum(:numbers) }
       else
-        render json: Reservation.common_part(permitted_space_id[:space_id], params.permit(:start_time)[:start_time], params.permit(:end_time)[:end_time])
+        render json: Reservation.common_part(permitted_space_id[:space_id], params.permit(:start_time)[:start_time], params.permit(:end_time)[:end_time]).order(id: :asc)
       end
     else
       render json: { 
-        "items" => Reservation.where(permitted_space_id).with_organization.page(params[:page]),
+        "items" => Reservation.where(permitted_space_id).with_organization.page(params[:page]).order(id: :asc),
         "total" => Reservation.where(permitted_space_id).count
       }
     end
