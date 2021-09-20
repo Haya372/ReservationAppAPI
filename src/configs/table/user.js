@@ -10,6 +10,10 @@ export default {
     text: "メールアドレス"
   },
   role: {
-    text: "権限"
+    text: "権限",
+    component: 'arraytext',
+    props: {
+      join: ', '
+    }
   }
 }

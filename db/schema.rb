@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_12_134125) do
+ActiveRecord::Schema.define(version: 2021_09_20_113120) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -60,6 +60,7 @@ ActiveRecord::Schema.define(version: 2021_09_12_134125) do
     t.string "image_url"
     t.string "description"
     t.string "rule"
+    t.string "color"
     t.index ["organization_id"], name: "index_spaces_on_organization_id"
   end
 

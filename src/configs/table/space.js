@@ -3,7 +3,7 @@ export default {
     text: 'id'
   },
   name: {
-    text: "name",
+    text: "場所名",
     link: true
   },
   capacity: {

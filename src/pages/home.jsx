@@ -49,7 +49,6 @@ export default function Home(props){
   return (
     <Layout header="Home">
       <div className="flex items-center my-4">
-        <div className="text-2xl font-bold">所属団体一覧</div>
         <Search
           className="flex-grow"
           onChange={onChangeSearch}
