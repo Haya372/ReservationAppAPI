@@ -34,7 +34,7 @@ class User < ApplicationRecord
     User.show_attributes.each {|attr|
       columns += "users." + attr + " as " + attr + ","
     }
-    User.joins(:organizations).select(columns.chop).find_by(sql)
+    User.joins(:organizations).select(columns.chop).where(sql).find_by(id: user_id)
   end
 
   def belong_organization(organization_id)
