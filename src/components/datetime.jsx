@@ -25,11 +25,13 @@ export default function Datetime(props){
     });
   }
 
+  let value = typeof props.value == 'string' ? props.value.replaceAll('-', '/') : props.value;
+
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
       <KeyboardDateTimePicker
         variant="dialig"
-        value={props.value}
+        value={value}
         onChange={onChange}
         ampm={false}
         format="yyyy/MM/dd HH:mm"
