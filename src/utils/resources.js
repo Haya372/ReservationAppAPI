@@ -8,6 +8,7 @@ import Password from "../components/password.jsx";
 import Flg from "../components/flg.jsx";
 import Chips from "../components/arrayText.jsx";
 import ColorPicker from "../components/colorPicker.jsx";
+import DatetimeCell from "../components/datetimeCell.jsx";
 
 export default {
   'text': (props) => <TextForm {...props} />,
@@ -19,5 +20,6 @@ export default {
   'textmulti': (props) => <TextField multiline maxRows="10" minRows="10" {...props} />,
   'flg': (props) => <Flg {...props} />,
   'arraytext': (props) => <Chips {...props} />,
-  'color': (props) => <ColorPicker {...props} />
+  'color': (props) => <ColorPicker {...props} />,
+  'datetime_cell': (props) => <DatetimeCell {...props} />
 }
