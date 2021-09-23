@@ -35,7 +35,11 @@ class Api::OrganizationController < ApplicationController
   end
 
   def index
-    render json: Organization.search(params[:search]).where(public: true)
+    organizations = Organization.search(params[:search]).where(public: true)
+    render json: {
+      "items" => organizations.page(params[:page]).per(params[:itemPerPage]),
+      "total" => Organization.search_total(params[:search])
+    }
   end
 
   def destroy

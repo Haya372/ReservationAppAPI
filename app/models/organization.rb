@@ -48,4 +48,10 @@ class Organization < ApplicationRecord
     self.users.select(columns.chop).where('users.name like ?', keyword)
           .or(users.select(columns.chop).where('users.kana like ?', keyword))
   end
+
+  def self.search_total(search)
+    search = "" if search.blank?
+    keyword = sanitize_sql_like(search) + "%"
+    self.where('name like ?', keyword).where(public: true).count
+  end
 end
