@@ -11,9 +11,11 @@ export default {
     component: "user"
   },
   start_time: {
-    text: "開始時間"
+    text: "開始時間",
+    component: "datetime_cell"
   },
   end_time: {
-    text: "終了時間"
+    text: "終了時間",
+    component: "datetime_cell"
   }
 }
