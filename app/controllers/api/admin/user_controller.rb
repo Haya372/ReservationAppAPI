@@ -28,6 +28,15 @@ class Api::Admin::UserController < ApplicationController
     render json: User.with_role(params[:id], params[:organization_id])
   end
 
+  def create
+    raise BadRequestError.new("パラメータが不適切です") if params[:users].blank? || params[:users].class != Array
+    params[:users].each{|user_id|
+      user_organization = UserOrganization.where(user_id: user_id).where(organization_id: params[:organization_id])
+      UserOrganization.create!(user_id: user_id, organization_id: params[:organization_id], role: []) if user_organization.blank?
+    }
+    render status: :ok
+  end
+
   private
   def check_perm
     raise ForbiddenError if !@current_user.has_role?(params[:organization_id], params[:action])

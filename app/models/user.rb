@@ -19,6 +19,13 @@ class User < ApplicationRecord
     select(columns.chop)
   }
 
+  def self.search(search = "")
+    search = "" if search.blank?
+    keyword = sanitize_sql_like(search) + '%'
+    self.show_params.where('users.name like ?', keyword)
+          .or(self.show_params.where('users.kana like ?', keyword))
+  end
+
   def organization_with_role(search = "")
     keyword = ActiveRecord::Base.sanitize_sql_like(search) + '%'
     columns = 'user_organizations.role as role,'

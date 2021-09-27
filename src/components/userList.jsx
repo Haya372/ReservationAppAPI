@@ -4,12 +4,20 @@ import Search from "../components/search.jsx";
 import Pagination from '@material-ui/lab/Pagination';
 import Table from '../components/table.jsx';
 import conf from '../configs/table/user.js';
+import Button from '@material-ui/core/Button';
+import AddIcon from '@material-ui/icons/Add';
+import AddUser from "./addUser.jsx";
 
 export default function UserList(props){
   const [search, setSearch] = useState("");
   const [users, setUsers] = useState([]);
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(1);
+  const [modal, setModal] = useState(false);
+
+  const onClickCreate = () => {
+    setModal(true);
+  }
 
   useEffect(async () => {
     try{
@@ -45,6 +53,11 @@ export default function UserList(props){
           onChange={onChangeSearch}
           value={search}
         />
+        <div className="text-blue-400">
+          <Button endIcon={<AddIcon />} color="inherit" variant="outlined" onClick={onClickCreate} disabled={!props.create}>
+            ユーザー追加
+          </Button>
+        </div>
       </div>
       <Table
         items={users}
@@ -60,6 +73,13 @@ export default function UserList(props){
           color="primary"
         />
       </div>
+      {modal ?
+        <AddUser
+          setShow={setModal}
+          organizationId={props.organizationId}
+          refresh={() => location.reload()}
+        /> 
+      : null}
     </div>
   )
 }
