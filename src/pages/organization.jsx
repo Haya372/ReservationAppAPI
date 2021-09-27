@@ -78,7 +78,7 @@ export default function Organization(props){
             password
           />,
           <SpaceList organizationId={organization_id} create={creatable}/>,
-          <UserList organizationId={organization_id} />,
+          <UserList organizationId={organization_id} create={creatable}/>,
         ]}
       />
     </Layout>
