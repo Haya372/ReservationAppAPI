@@ -1,10 +1,12 @@
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const path = require('path')
+const path = require('path');
+const TailwindCss = require('tailwindcss')
+const Autoprefixer = require('autoprefixer');
 
 const plugins = [
   new MiniCssExtractPlugin({
-    filename: ".css",
+    filename: "styles.css",
     chunkFilename: "[name]-[chunkhash].css"
   }),
   new HtmlWebPackPlugin({
@@ -26,7 +28,18 @@ module.exports = {
         test: /\.css$/,
         use: [
           MiniCssExtractPlugin.loader,
-          "css-loader", "postcss-loader",
+          "css-loader",
+          {
+            loader: 'postcss-loader',
+            options: {
+              postcssOptions: {
+                plugins: [
+                  TailwindCss,
+                  Autoprefixer
+                ]
+              }
+            }
+          }
         ],
       },
       {
