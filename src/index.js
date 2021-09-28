@@ -10,9 +10,9 @@ import SpaceCreate from "./pages/spaceCreate.jsx";
 import User from "./pages/user.jsx";
 import Reservation from "./pages/reservation.jsx";
 import ReservationCreate from "./pages/reservationCreate.jsx";
-// import "tailwindcss/base.css";
-// import "tailwindcss/components.css";
-// import "tailwindcss/utilities.css";
+import "tailwindcss/base.css";
+import "tailwindcss/components.css";
+import "tailwindcss/utilities.css";
 import theme from "./utils/theme.js";
 import { ThemeProvider } from "@material-ui/styles";
 
